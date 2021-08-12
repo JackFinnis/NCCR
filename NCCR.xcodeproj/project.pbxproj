@@ -8,18 +8,76 @@
 
 /* Begin PBXBuildFile section */
 		F460FCDA26C58592009732E2 /* NCCRApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCD926C58592009732E2 /* NCCRApp.swift */; };
-		F460FCDC26C58592009732E2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCDB26C58592009732E2 /* ContentView.swift */; };
 		F460FCDE26C58594009732E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F460FCDD26C58594009732E2 /* Assets.xcassets */; };
-		F460FCE126C58594009732E2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F460FCE026C58594009732E2 /* Preview Assets.xcassets */; };
+		F460FCEE26C58615009732E2 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F460FCEC26C58615009732E2 /* Main.xcdatamodeld */; };
+		F460FD0326C58835009732E2 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCF426C58835009732E2 /* AboutView.swift */; };
+		F460FD0426C58835009732E2 /* MapSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCF526C58835009732E2 /* MapSettings.swift */; };
+		F460FD0526C58835009732E2 /* ActionBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCF626C58835009732E2 /* ActionBar.swift */; };
+		F460FD0626C58835009732E2 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCF726C58835009732E2 /* TipView.swift */; };
+		F460FD0726C58835009732E2 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCF826C58835009732E2 /* FilterView.swift */; };
+		F460FD0826C58835009732E2 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCF926C58835009732E2 /* InfoView.swift */; };
+		F460FD0926C58835009732E2 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCFA26C58835009732E2 /* Spinner.swift */; };
+		F460FD0A26C58835009732E2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCFB26C58835009732E2 /* MapView.swift */; };
+		F460FD0B26C58835009732E2 /* ControlBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCFC26C58835009732E2 /* ControlBox.swift */; };
+		F460FD0C26C58835009732E2 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCFD26C58835009732E2 /* ShareView.swift */; };
+		F460FD0D26C58835009732E2 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCFE26C58835009732E2 /* RootView.swift */; };
+		F460FD0E26C58835009732E2 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCFF26C58835009732E2 /* SearchBar.swift */; };
+		F460FD0F26C58835009732E2 /* RouteInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD0026C58835009732E2 /* RouteInfo.swift */; };
+		F460FD1026C58835009732E2 /* RouteBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD0126C58835009732E2 /* RouteBar.swift */; };
+		F460FD1126C58835009732E2 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD0226C58835009732E2 /* Blur.swift */; };
+		F460FD1726C5883F009732E2 /* TipViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD1426C5883F009732E2 /* TipViewModel.swift */; };
+		F460FD1826C5883F009732E2 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD1526C5883F009732E2 /* ViewModel.swift */; };
+		F460FD1926C5883F009732E2 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD1626C5883F009732E2 /* PersistenceManager.swift */; };
+		F460FD2326C5884A009732E2 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD1C26C5884A009732E2 /* Location.swift */; };
+		F460FD2426C5884A009732E2 /* SortBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD1D26C5884A009732E2 /* SortBy.swift */; };
+		F460FD2526C5884A009732E2 /* Church.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD1E26C5884A009732E2 /* Church.swift */; };
+		F460FD2626C5884A009732E2 /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD1F26C5884A009732E2 /* Tip.swift */; };
+		F460FD2726C5884A009732E2 /* DistanceUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD2026C5884A009732E2 /* DistanceUnit.swift */; };
+		F460FD2826C5884A009732E2 /* Polyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD2126C5884A009732E2 /* Polyline.swift */; };
+		F460FD2926C5884A009732E2 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD2226C5884A009732E2 /* Route.swift */; };
+		F460FD3026C58851009732E2 /* RouteMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD2C26C58851009732E2 /* RouteMarker.swift */; };
+		F460FD3126C58851009732E2 /* ClusterMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD2D26C58851009732E2 /* ClusterMarker.swift */; };
+		F460FD3226C58851009732E2 /* LocationMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD2E26C58851009732E2 /* LocationMarker.swift */; };
+		F460FD3326C58851009732E2 /* ChurchMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD2F26C58851009732E2 /* ChurchMarker.swift */; };
+		F460FD3726C58856009732E2 /* CLLC2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD3626C58856009732E2 /* CLLC2D.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F460FCD626C58592009732E2 /* NCCR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NCCR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F460FCD926C58592009732E2 /* NCCRApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCCRApp.swift; sourceTree = "<group>"; };
-		F460FCDB26C58592009732E2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F460FCDD26C58594009732E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F460FCE026C58594009732E2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F460FCE226C58594009732E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F460FCED26C58615009732E2 /* Main.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Main.xcdatamodel; sourceTree = "<group>"; };
+		F460FCF426C58835009732E2 /* AboutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		F460FCF526C58835009732E2 /* MapSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSettings.swift; sourceTree = "<group>"; };
+		F460FCF626C58835009732E2 /* ActionBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionBar.swift; sourceTree = "<group>"; };
+		F460FCF726C58835009732E2 /* TipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
+		F460FCF826C58835009732E2 /* FilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		F460FCF926C58835009732E2 /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		F460FCFA26C58835009732E2 /* Spinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
+		F460FCFB26C58835009732E2 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		F460FCFC26C58835009732E2 /* ControlBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlBox.swift; sourceTree = "<group>"; };
+		F460FCFD26C58835009732E2 /* ShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
+		F460FCFE26C58835009732E2 /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		F460FCFF26C58835009732E2 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		F460FD0026C58835009732E2 /* RouteInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteInfo.swift; sourceTree = "<group>"; };
+		F460FD0126C58835009732E2 /* RouteBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBar.swift; sourceTree = "<group>"; };
+		F460FD0226C58835009732E2 /* Blur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
+		F460FD1426C5883F009732E2 /* TipViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TipViewModel.swift; sourceTree = "<group>"; };
+		F460FD1526C5883F009732E2 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		F460FD1626C5883F009732E2 /* PersistenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
+		F460FD1C26C5884A009732E2 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		F460FD1D26C5884A009732E2 /* SortBy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortBy.swift; sourceTree = "<group>"; };
+		F460FD1E26C5884A009732E2 /* Church.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Church.swift; sourceTree = "<group>"; };
+		F460FD1F26C5884A009732E2 /* Tip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
+		F460FD2026C5884A009732E2 /* DistanceUnit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceUnit.swift; sourceTree = "<group>"; };
+		F460FD2126C5884A009732E2 /* Polyline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Polyline.swift; sourceTree = "<group>"; };
+		F460FD2226C5884A009732E2 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		F460FD2C26C58851009732E2 /* RouteMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteMarker.swift; sourceTree = "<group>"; };
+		F460FD2D26C58851009732E2 /* ClusterMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterMarker.swift; sourceTree = "<group>"; };
+		F460FD2E26C58851009732E2 /* LocationMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMarker.swift; sourceTree = "<group>"; };
+		F460FD2F26C58851009732E2 /* ChurchMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChurchMarker.swift; sourceTree = "<group>"; };
+		F460FD3626C58856009732E2 /* CLLC2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLLC2D.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,20 +111,81 @@
 			isa = PBXGroup;
 			children = (
 				F460FCD926C58592009732E2 /* NCCRApp.swift */,
-				F460FCDB26C58592009732E2 /* ContentView.swift */,
 				F460FCDD26C58594009732E2 /* Assets.xcassets */,
 				F460FCE226C58594009732E2 /* Info.plist */,
-				F460FCDF26C58594009732E2 /* Preview Content */,
+				F460FCEC26C58615009732E2 /* Main.xcdatamodeld */,
+				F460FCF326C58835009732E2 /* Views */,
+				F460FD1326C5883F009732E2 /* View Models */,
+				F460FD1B26C5884A009732E2 /* Models */,
+				F460FD2B26C58851009732E2 /* Annotation Views */,
+				F460FD3526C58856009732E2 /* Extensions */,
 			);
 			path = NCCR;
 			sourceTree = "<group>";
 		};
-		F460FCDF26C58594009732E2 /* Preview Content */ = {
+		F460FCF326C58835009732E2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F460FCE026C58594009732E2 /* Preview Assets.xcassets */,
+				F460FCF426C58835009732E2 /* AboutView.swift */,
+				F460FCF526C58835009732E2 /* MapSettings.swift */,
+				F460FCF626C58835009732E2 /* ActionBar.swift */,
+				F460FCF726C58835009732E2 /* TipView.swift */,
+				F460FCF826C58835009732E2 /* FilterView.swift */,
+				F460FCF926C58835009732E2 /* InfoView.swift */,
+				F460FCFA26C58835009732E2 /* Spinner.swift */,
+				F460FCFB26C58835009732E2 /* MapView.swift */,
+				F460FCFC26C58835009732E2 /* ControlBox.swift */,
+				F460FCFD26C58835009732E2 /* ShareView.swift */,
+				F460FCFE26C58835009732E2 /* RootView.swift */,
+				F460FCFF26C58835009732E2 /* SearchBar.swift */,
+				F460FD0026C58835009732E2 /* RouteInfo.swift */,
+				F460FD0126C58835009732E2 /* RouteBar.swift */,
+				F460FD0226C58835009732E2 /* Blur.swift */,
 			);
-			path = "Preview Content";
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F460FD1326C5883F009732E2 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				F460FD1426C5883F009732E2 /* TipViewModel.swift */,
+				F460FD1526C5883F009732E2 /* ViewModel.swift */,
+				F460FD1626C5883F009732E2 /* PersistenceManager.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
+		F460FD1B26C5884A009732E2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F460FD1C26C5884A009732E2 /* Location.swift */,
+				F460FD1D26C5884A009732E2 /* SortBy.swift */,
+				F460FD1E26C5884A009732E2 /* Church.swift */,
+				F460FD1F26C5884A009732E2 /* Tip.swift */,
+				F460FD2026C5884A009732E2 /* DistanceUnit.swift */,
+				F460FD2126C5884A009732E2 /* Polyline.swift */,
+				F460FD2226C5884A009732E2 /* Route.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F460FD2B26C58851009732E2 /* Annotation Views */ = {
+			isa = PBXGroup;
+			children = (
+				F460FD2C26C58851009732E2 /* RouteMarker.swift */,
+				F460FD2D26C58851009732E2 /* ClusterMarker.swift */,
+				F460FD2E26C58851009732E2 /* LocationMarker.swift */,
+				F460FD2F26C58851009732E2 /* ChurchMarker.swift */,
+			);
+			path = "Annotation Views";
+			sourceTree = "<group>";
+		};
+		F460FD3526C58856009732E2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F460FD3626C58856009732E2 /* CLLC2D.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,7 +245,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F460FCE126C58594009732E2 /* Preview Assets.xcassets in Resources */,
 				F460FCDE26C58594009732E2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,8 +256,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F460FCDC26C58592009732E2 /* ContentView.swift in Sources */,
+				F460FD0C26C58835009732E2 /* ShareView.swift in Sources */,
+				F460FD0826C58835009732E2 /* InfoView.swift in Sources */,
+				F460FD0926C58835009732E2 /* Spinner.swift in Sources */,
+				F460FD0726C58835009732E2 /* FilterView.swift in Sources */,
+				F460FD2726C5884A009732E2 /* DistanceUnit.swift in Sources */,
+				F460FD1726C5883F009732E2 /* TipViewModel.swift in Sources */,
+				F460FD3326C58851009732E2 /* ChurchMarker.swift in Sources */,
+				F460FCEE26C58615009732E2 /* Main.xcdatamodeld in Sources */,
+				F460FD0326C58835009732E2 /* AboutView.swift in Sources */,
+				F460FD1126C58835009732E2 /* Blur.swift in Sources */,
+				F460FD2826C5884A009732E2 /* Polyline.swift in Sources */,
+				F460FD0626C58835009732E2 /* TipView.swift in Sources */,
+				F460FD3126C58851009732E2 /* ClusterMarker.swift in Sources */,
+				F460FD2626C5884A009732E2 /* Tip.swift in Sources */,
+				F460FD0F26C58835009732E2 /* RouteInfo.swift in Sources */,
+				F460FD3226C58851009732E2 /* LocationMarker.swift in Sources */,
+				F460FD0E26C58835009732E2 /* SearchBar.swift in Sources */,
+				F460FD1926C5883F009732E2 /* PersistenceManager.swift in Sources */,
+				F460FD2426C5884A009732E2 /* SortBy.swift in Sources */,
+				F460FD1826C5883F009732E2 /* ViewModel.swift in Sources */,
+				F460FD2526C5884A009732E2 /* Church.swift in Sources */,
+				F460FD2926C5884A009732E2 /* Route.swift in Sources */,
+				F460FD2326C5884A009732E2 /* Location.swift in Sources */,
+				F460FD0526C58835009732E2 /* ActionBar.swift in Sources */,
+				F460FD3026C58851009732E2 /* RouteMarker.swift in Sources */,
+				F460FD0A26C58835009732E2 /* MapView.swift in Sources */,
+				F460FD0D26C58835009732E2 /* RootView.swift in Sources */,
+				F460FD3726C58856009732E2 /* CLLC2D.swift in Sources */,
 				F460FCDA26C58592009732E2 /* NCCRApp.swift in Sources */,
+				F460FD1026C58835009732E2 /* RouteBar.swift in Sources */,
+				F460FD0B26C58835009732E2 /* ControlBox.swift in Sources */,
+				F460FD0426C58835009732E2 /* MapSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,8 +416,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"NCCR/Preview Content\"";
-				DEVELOPMENT_TEAM = 4CQW4CFFYT;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = T4L8JBB88A;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = NCCR/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -277,7 +425,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = JackFinnis.NCCR;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JackFinnis.NCCR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -290,8 +438,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"NCCR/Preview Content\"";
-				DEVELOPMENT_TEAM = 4CQW4CFFYT;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = T4L8JBB88A;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = NCCR/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -299,7 +447,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = JackFinnis.NCCR;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JackFinnis.NCCR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -328,6 +476,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F460FCEC26C58615009732E2 /* Main.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F460FCED26C58615009732E2 /* Main.xcdatamodel */,
+			);
+			currentVersion = F460FCED26C58615009732E2 /* Main.xcdatamodel */;
+			path = Main.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F460FCCE26C58592009732E2 /* Project object */;
 }
