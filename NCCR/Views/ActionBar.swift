@@ -20,31 +20,34 @@ struct ActionBar: View {
                     .frame(width: 48, height: 48)
             }
             
-            Spacer()
-            if vm.loading == .loading {
-                ProgressView()
-            } else if vm.loading == .loaded {
-                Menu {
-                    ForEach(SortBy.allCases, id: \.self) { sortBy in
-                        Button {
-                            vm.sortBy = sortBy
-                        } label: {
-                            Text(sortBy.rawValue)
+            Group {
+                Spacer()
+                if vm.loading == .loading {
+                    ProgressView()
+                } else if vm.loading == .loaded {
+                    Menu {
+                        ForEach(SortBy.allCases.sorted { $0.rawValue > $1.rawValue }, id: \.self) { sortBy in
+                            Button {
+                                vm.sortBy = sortBy
+                            } label: {
+                                Text(sortBy.rawValue)
+                            }
                         }
+                    } label: {
+                        Text("Sort Routes")
                     }
-                } label: {
-                    Text("Sort Routes")
+                    .frame(height: 48)
+                } else {
+                    Button {
+                        vm.loading = .loading
+                        vm.loadRoutes()
+                    } label: {
+                        Text("Reload")
+                    }
                 }
-                .frame(height: 48)
-            } else {
-                Button {
-                    vm.loading = .loading
-                    vm.loadRoutes()
-                } label: {
-                    Text("Reload")
-                }
+                Spacer()
             }
-            Spacer()
+            .animation(.none, value: vm.loading)
             
             Button {
                 vm.showInfoView = true

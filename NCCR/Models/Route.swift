@@ -14,9 +14,11 @@ class Route: NSObject, MKAnnotation, Decodable, Identifiable {
     let start: String
     let end: String
     let metres: Int
+    let colourString: String
     let churches: [Church]
     let coords: [CLLocationCoordinate2D]
     
+    var colour: UIColor { UIColor(hex: colourString)! }
     var stage: String { "Route \(id)" }
     var name: String { start + " to " + end }
     var density: Double { Double(metres) / Double(churches.count) / 1_000 }

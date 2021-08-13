@@ -10,7 +10,7 @@ import UIKit
 
 struct ShareView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIActivityViewController {
-        let shareItems = [URL(string: "https://www.apple.com")!]
+        let shareItems = [URL(string: "https://itunes.apple.com/app/id1580773042")!]
         return UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
     }
     

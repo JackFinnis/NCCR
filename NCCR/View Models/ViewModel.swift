@@ -222,7 +222,7 @@ class ViewModel: NSObject, ObservableObject {
     private func searchChurches() {
         filteredChurches = filteredChurches.filter { church in
             if selectedRoute != nil && selectedRoute!.churches.contains(church) { return true }
-            if !searchText.isEmpty && church.name.localizedCaseInsensitiveContains(searchText) { return true }
+            if selectedRoute == nil && !searchText.isEmpty && church.name.localizedCaseInsensitiveContains(searchText) { return true }
             if selectedRoute == nil && searchText.isEmpty && filter && !showRoutes { return true }
             return false
         }
@@ -695,9 +695,7 @@ extension ViewModel: MKMapViewDelegate {
         var colour: UIColor {
             if visitedRoute(id: polyline.route!.id) {
                 return .systemPink
-            } else if selectedRoute == polyline.route {
-                return .systemOrange
-            } else {
+            }else {
                 return .systemBlue
             }
         }

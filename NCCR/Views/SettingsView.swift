@@ -13,25 +13,30 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Visited Features")) {
+                Section(header: Text("Visited Summary")) {
                     Label {
                         if vm.visitedFeatures.routes!.count == 26 {
-                            Text("You have cycled every route!")
+                            Text("You have cycled all 26 routes!")
                         } else {
-                            HStack {
-                                Text(String(vm.visitedFeatures.routes!.count) + "/26 Routes ")
-                                Spacer()
-                                Text(vm.getDistanceCycledSummary())
-                                    .foregroundColor(.secondary)
-                            }
+                            Text(String(vm.visitedFeatures.routes!.count) + "/26 Routes ")
                         }
                     } icon: {
                         Image(systemName: "bicycle")
                     }
                     
                     Label {
+                        if vm.visitedFeatures.routes!.count == 26 {
+                            Text("You have cycled all " + vm.getFormattedDistanceWithUnit(metres: vm.totalMetres) + "!")
+                        } else {
+                            Text(vm.getDistanceCycledSummary())
+                        }
+                    } icon: {
+                        Image(systemName: "ruler")
+                    }
+                    
+                    Label {
                         if vm.visitedFeatures.churches!.count == 632 {
-                            Text("You have visited every medieval church in Norfolk!")
+                            Text("You have visited all 632 medieval churches in Norfolk!")
                         } else {
                             Text(String(vm.visitedFeatures.churches!.count) + "/632 Churches")
                         }

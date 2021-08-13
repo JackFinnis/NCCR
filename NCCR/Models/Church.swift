@@ -11,10 +11,10 @@ import MapKit
 class Church: NSObject, MKAnnotation, Decodable, Identifiable {
     let id: Int
     let name: String
-    let urlString: String
+    let url: URL
     let coordinate: CLLocationCoordinate2D
     
-    var url: URL { URL(string: urlString)! }
+//    var url: URL { URL(string: urlString)! }
     var title: String? { name }
     var subtitle: String? { "Church" }
     

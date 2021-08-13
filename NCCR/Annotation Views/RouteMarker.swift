@@ -23,7 +23,7 @@ class RouteMarker: MKMarkerAnnotationView {
                     }
                 }
                 
-                markerTintColor = colour
+                markerTintColor = .systemBlue
                 glyphText = String(route.id)
                 displayPriority = .defaultHigh
                 animatesWhenAdded = true

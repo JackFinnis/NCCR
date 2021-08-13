@@ -12,6 +12,9 @@ import MessageUI
 struct InfoView: View {
     @EnvironmentObject var vm: ViewModel
     
+    let email: String = "jack.finnis@icloud.com"
+    let appUrl: String = "https://itunes.apple.com/app/id1580773042"
+    
     var body: some View {
         NavigationView {
             Form {
@@ -31,14 +34,14 @@ struct InfoView: View {
                     }
                     
                     Button {
-                        let url = URL(string: "mailto:jack.finnis@icloud.com?subject=NCCR:%20Feedback")!
+                        let url = URL(string: "mailto:" + email + "?subject=NCCR:%20Feedback")!
                         UIApplication.shared.open(url)
                     } label: {
                         Label("Send us Feedback", systemImage: "envelope")
                     }
                     
                     Button {
-                        let productUrl = URL(string: "https://itunes.apple.com")!
+                        let productUrl = URL(string: appUrl)!
                         var components = URLComponents(url: productUrl, resolvingAgainstBaseURL: false)
                         components?.queryItems = [
                             URLQueryItem(name: "action", value: "write-review")
@@ -52,9 +55,9 @@ struct InfoView: View {
                 }
                 
                 Section(header: Text("Give Back"), footer: Text("If you have any pictures from your routes that you would like to share you can submit them here to be included in the app!")) {
-                    NavigationLink(destination: TipView()) {
-                        Label("Tip Jar", systemImage: "heart")
-                    }
+//                    NavigationLink(destination: TipView()) {
+//                        Label("Tip Jar", systemImage: "heart")
+//                    }
                     
                     Button {
                         vm.showShareView = true
@@ -63,14 +66,14 @@ struct InfoView: View {
                     }
                     
                     Button {
-                        let url = URL(string: "mailto:jack.finnis@icloud.com?subject=NCCR:%20Contribute")!
+                        let url = URL(string: "mailto:" + email + "?subject=NCCR:%20Contribute")!
                         UIApplication.shared.open(url)
                     } label: {
                         Label("Contribute Photos", systemImage: "photo")
                     }
                 }
             }
-            .navigationTitle("Info")
+            .navigationTitle("Feedback")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
