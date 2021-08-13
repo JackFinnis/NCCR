@@ -66,6 +66,7 @@ struct SettingsView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         vm.showSettingsView = false
+                        vm.setRegion(routes: vm.filteredRoutes, churches: nil, locations: nil)
                     } label: {
                         Text("Done")
                     }

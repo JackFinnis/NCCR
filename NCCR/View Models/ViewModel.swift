@@ -20,9 +20,13 @@ class ViewModel: NSObject, ObservableObject {
     @Published var filteredChurches = [Church]()
     @Published var filteredPolylines = [Polyline]()
     @Published var loading: LoadingState = .loading
+    @Published var selectedRouteNotNil: Route?
     @Published var selectedRoute: Route? { didSet {
         filterFeatures()
         setRegion(routes: [selectedRoute], churches: nil, locations: nil)
+        if selectedRoute != nil {
+            selectedRouteNotNil = selectedRoute
+        }
     }}
     
     // Filters
@@ -36,7 +40,7 @@ class ViewModel: NSObject, ObservableObject {
     @Published var maximumDistance: Double = 0 { didSet { filterFeatures() } }
     @Published var maximumProximity: Double = 0 { didSet { filterFeatures() } }
     @Published var sortBy: SortBy = .id { didSet {
-        filterFeatures()
+        sortRoutes()
         selectFirstRoute()
     }}
     
@@ -171,23 +175,13 @@ class ViewModel: NSObject, ObservableObject {
     // MARK: - Filter Routes
     // Filter map features
     private func filterFeatures() {
-        filterChurches()
         filterRoutes()
+        filterChurches()
+        searchChurches()
+        searchRoutes()
+        sortRoutes()
         filterPolylines()
         updateSelectedRoute()
-    }
-    
-    // Filter churches
-    private func filterChurches() {
-        filteredChurches = churches.filter { church in
-            if filter && !showChurches { return false }
-            if visitedChurch(id: church.id) && !showVisited { return false }
-            if !visitedChurch(id: church.id) && !showUnvisited { return false }
-            if selectedRoute != nil && !(selectedRoute!.churches.contains(church)) { return false }
-            if !searchText.isEmpty && !church.name.localizedCaseInsensitiveContains(searchText) { return false }
-            if selectedRoute == nil && searchText.isEmpty && !(filter && !showRoutes) { return false }
-            return true
-        }
     }
     
     // Filter routes
@@ -201,6 +195,42 @@ class ViewModel: NSObject, ObservableObject {
                 if minimumDistance < maximumDistance && (route.metres > Int(maximumDistance) || route.metres < Int(minimumDistance)) { return false }
                 if maximumProximity != 0 && distanceTo(route: route) > maximumProximity { return false }
             }
+            return true
+        }
+    }
+    
+    // Filter churches
+    private func filterChurches() {
+        var filteredRoutesChurches = [Church]()
+        for route in filteredRoutes {
+            filteredRoutesChurches.append(contentsOf: route.churches)
+        }
+        
+        if filter {
+            filteredChurches = filteredRoutesChurches.filter { church in
+                if !showChurches { return false }
+                if visitedChurch(id: church.id) && !showVisited { return false }
+                if !visitedChurch(id: church.id) && !showUnvisited { return false }
+                return true
+            }
+        } else {
+            filteredChurches = filteredRoutesChurches
+        }
+    }
+    
+    // Filter churches by search Text
+    private func searchChurches() {
+        filteredChurches = filteredChurches.filter { church in
+            if selectedRoute != nil && selectedRoute!.churches.contains(church) { return true }
+            if !searchText.isEmpty && church.name.localizedCaseInsensitiveContains(searchText) { return true }
+            if selectedRoute == nil && searchText.isEmpty && filter && !showRoutes { return true }
+            return false
+        }
+    }
+    
+    // Filter routes by search text
+    private func searchRoutes() {
+        filteredRoutes = filteredRoutes.filter { route in
             if searchText.isEmpty { return true }
             if route.start.localizedCaseInsensitiveContains(searchText) { return true }
             if route.end.localizedCaseInsensitiveContains(searchText) { return true }
@@ -209,7 +239,11 @@ class ViewModel: NSObject, ObservableObject {
             }
             return false
         }
-        .sorted { (route1, route2) in
+    }
+    
+    // Sort routes
+    private func sortRoutes() {
+        filteredRoutes = filteredRoutes.sorted { (route1, route2) in
             switch sortBy {
             case .id:
                 return route1.id < route2.id
@@ -445,7 +479,7 @@ class ViewModel: NSObject, ObservableObject {
             regionHasRoutes = true
             var routesToZoomTo = routes!
             if routes!.first! == nil {
-                routesToZoomTo = self.routes
+                routesToZoomTo = filteredRoutes
             }
             
             for route in routesToZoomTo {
@@ -491,11 +525,10 @@ class ViewModel: NSObject, ObservableObject {
             }
         }
         
-        var latBounds = 2.0
+        let latBounds = 1.4
         var longBounds = 2.0
         if regionHasRoutes {
-            latBounds = 1.8
-            longBounds = 1.2
+            longBounds = 1.1
         }
         
         

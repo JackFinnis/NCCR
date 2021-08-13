@@ -26,6 +26,7 @@ struct MapView: UIViewRepresentable {
         mapView.showsScale = false
         mapView.showsCompass = true
         mapView.isPitchEnabled = false
+        mapView.layoutMargins = UIEdgeInsets(top: 110, left: 12, bottom: 80, right: 12)
         
         // Register annotations
         mapView.register(ChurchMarker.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)

@@ -14,7 +14,8 @@ struct ControlBox: View {
         Group {
             if vm.selectedRoute != nil && vm.filteredRoutes.firstIndex(of: vm.selectedRoute!) != nil {
                 RouteBar(route: vm.selectedRoute!, index: vm.filteredRoutes.firstIndex(of: vm.selectedRoute!)!)
-                    .animation(.none)
+                    .animation(.none, value: vm.selectedRouteNotNil)
+                    .transition(.move(edge: .bottom))
             } else {
                 VStack(spacing: 0) {
                     ActionBar()
@@ -26,6 +27,7 @@ struct ControlBox: View {
                             Button {
                                 vm.showCancelButton = false
                                 vm.searchText = ""
+                                vm.setRegion(routes: vm.filteredRoutes, churches: nil, locations: nil)
                             } label: {
                                 Text("Cancel")
                             }
@@ -34,9 +36,9 @@ struct ControlBox: View {
                         }
                     }
                 }
+                .transition(.move(edge: .bottom))
             }
         }
-        .transition(.move(edge: .bottom))
         .background(Blur())
         .cornerRadius(10)
         .compositingGroup()
