@@ -22,7 +22,7 @@ class ViewModel: NSObject, ObservableObject {
     @Published var loading: LoadingState = .loading
     @Published var selectedRoute: Route? { didSet {
         filterFeatures()
-        setRegion(routes: [selectedRoute])
+        setRegion(routes: [selectedRoute], churches: nil, locations: nil)
     }}
     
     // Filters
@@ -103,7 +103,7 @@ class ViewModel: NSObject, ObservableObject {
                         self.extractAllChurches()
                         self.filterFeatures()
                         self.loading = .loaded
-                        self.setRegion(routes: response)
+                        self.setRegion(routes: response, churches: nil, locations: nil)
                     }
                     return
                 }
@@ -179,24 +179,14 @@ class ViewModel: NSObject, ObservableObject {
     
     // Filter churches
     private func filterChurches() {
-        if (selectedRoute == nil && searchText.isEmpty) || (filter && (!showChurches || (selectedRoute == nil && searchText.isEmpty && showRoutes))) {
-            filteredChurches = []
-            return
-        }
-        
-        var churchesToFilter = [Church]()
-        if selectedRoute == nil {
-            churchesToFilter = churches
-        } else {
-            churchesToFilter = selectedRoute!.churches
-        }
-        
-        filteredChurches = churchesToFilter.filter { church in
+        filteredChurches = churches.filter { church in
+            if filter && !showChurches { return false }
             if visitedChurch(id: church.id) && !showVisited { return false }
             if !visitedChurch(id: church.id) && !showUnvisited { return false }
-            if searchText.isEmpty { return true }
-            if church.name.localizedCaseInsensitiveContains(searchText) { return true }
-            return false
+            if selectedRoute != nil && !(selectedRoute!.churches.contains(church)) { return false }
+            if !searchText.isEmpty && !church.name.localizedCaseInsensitiveContains(searchText) { return false }
+            if selectedRoute == nil && searchText.isEmpty && !(filter && !showRoutes) { return false }
+            return true
         }
     }
     
@@ -447,11 +437,34 @@ class ViewModel: NSObject, ObservableObject {
     
     // MARK: - Map Helper Functions
     // Get map region
-    public func setRegion(routes: [Route?]) {
-        if routes.isEmpty { return }
-        var routesToZoomTo = routes
-        if routes.first! == nil {
-            routesToZoomTo = self.routes
+    public func setRegion(routes: [Route?]?, churches: [Church]?, locations: [Location]?) {
+        var coords = [CLLocationCoordinate2D]()
+        var regionHasRoutes: Bool = false
+        
+        if routes != nil && !routes!.isEmpty {
+            regionHasRoutes = true
+            var routesToZoomTo = routes!
+            if routes!.first! == nil {
+                routesToZoomTo = self.routes
+            }
+            
+            for route in routesToZoomTo {
+                coords.append(route!.coords.first!)
+                coords.append(route!.coords.last!)
+                for church in route!.churches {
+                    coords.append(church.coordinate)
+                }
+            }
+        }
+        if churches != nil {
+            for church in churches! {
+                coords.append(church.coordinate)
+            }
+        }
+        if locations != nil {
+            for location in locations! {
+                coords.append(location.coordinate)
+            }
         }
         
         var minLat: Double = 90
@@ -459,34 +472,37 @@ class ViewModel: NSObject, ObservableObject {
         var minLong: Double = 180
         var maxLong: Double = -180
         
-        for route in routesToZoomTo {
-            var coords2D = [CLLocationCoordinate2D]()
-            coords2D.append(route!.coords.first!)
-            coords2D.append(route!.coords.last!)
-            for church in route!.churches {
-                coords2D.append(church.coordinate)
+        if coords.count < 2 {
+            return
+        }
+        
+        for coord in coords {
+            if coord.latitude < minLat {
+                minLat = coord.latitude
             }
-            
-            for coord in coords2D {
-                if coord.latitude < minLat {
-                    minLat = coord.latitude
-                }
-                if coord.latitude > maxLat {
-                    maxLat = coord.latitude
-                }
-                if coord.longitude < minLong {
-                    minLong = coord.longitude
-                }
-                if coord.longitude > maxLong {
-                    maxLong = coord.longitude
-                }
+            if coord.latitude > maxLat {
+                maxLat = coord.latitude
+            }
+            if coord.longitude < minLong {
+                minLong = coord.longitude
+            }
+            if coord.longitude > maxLong {
+                maxLong = coord.longitude
             }
         }
         
+        var latBounds = 2.0
+        var longBounds = 2.0
+        if regionHasRoutes {
+            latBounds = 1.8
+            longBounds = 1.2
+        }
+        
+        
         let latDelta: Double = maxLat - minLat
         let longDelta: Double = maxLong - minLong
-        let span = MKCoordinateSpan(latitudeDelta: latDelta * 1.8, longitudeDelta: longDelta * 1.2)
-        let centre = CLLocationCoordinate2D(latitude: (minLat + maxLat) * 0.5, longitude: (minLong + maxLong) * 0.5)
+        let span = MKCoordinateSpan(latitudeDelta: latDelta * latBounds, longitudeDelta: longDelta * longBounds)
+        let centre = CLLocationCoordinate2D(latitude: (minLat + maxLat)/2, longitude: (minLong + maxLong)/2)
         let region = MKCoordinateRegion(center: centre, span: span)
         
         regionToZoom = region
@@ -547,7 +563,7 @@ class ViewModel: NSObject, ObservableObject {
         if maximumProximity == 0 {
             return "No Filter"
         } else {
-            return "< " + formattedMaximumProximity + "away"
+            return "< " + formattedMaximumProximity + " away"
         }
     }
     
@@ -689,6 +705,30 @@ extension ViewModel: MKMapViewDelegate {
             if let route = routeMarker.annotation as? Route {
                 selectedRoute = route
             }
+        } else if let churchMarker = didSelect as? ChurchMarker {
+            if let church = churchMarker.annotation as? Church {
+                UIApplication.shared.open(church.url)
+            }
+        } else if let locationMarker = didSelect as? LocationMarker {
+            if let location = locationMarker.annotation as? Location {
+                location.mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
+            }
+        } else if let clusterMarker = didSelect as? ClusterMarker {
+            if let cluster = clusterMarker.annotation as? MKClusterAnnotation {
+                var routes = [Route]()
+                var churches = [Church]()
+                var locations = [Location]()
+                for annotation in cluster.memberAnnotations {
+                    if let route = annotation as? Route {
+                        routes.append(route)
+                    } else if let church = annotation as? Church {
+                        churches.append(church)
+                    } else if let location = annotation as? Location {
+                        locations.append(location)
+                    }
+                }
+                setRegion(routes: routes, churches: churches, locations: locations)
+            }
         }
     }
 }
@@ -708,7 +748,7 @@ extension ViewModel: UISearchBarDelegate {
         if filteredRoutes.count == 1 {
             selectedRoute = filteredRoutes.first
         } else {
-            setRegion(routes: filteredRoutes)
+            setRegion(routes: filteredRoutes, churches: nil, locations: nil)
         }
     }
 }

@@ -34,7 +34,7 @@ class Route: NSObject, MKAnnotation, Decodable, Identifiable {
     var endCLL: CLLocation { CLLocation(latitude: coords.last!.latitude, longitude: coords.last!.longitude) }
     
     var locations: [Location] {[
-        Location(name: start, start: true, stage: stage, coordinate: coords.first!),
-        Location(name: end, start: false, stage: stage, coordinate: coords.last!)
+        Location(name: start, start: true, stage: stage, coordinate: coords[5]),
+        Location(name: end, start: false, stage: stage, coordinate: coords[coords.count - 6])
     ]}
 }

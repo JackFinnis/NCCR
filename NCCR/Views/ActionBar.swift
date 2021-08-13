@@ -38,6 +38,7 @@ struct ActionBar: View {
                 .frame(height: 48)
             } else {
                 Button {
+                    vm.loading = .loading
                     vm.loadRoutes()
                 } label: {
                     Text("Reload")

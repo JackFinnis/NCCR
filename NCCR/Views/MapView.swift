@@ -23,7 +23,7 @@ struct MapView: UIViewRepresentable {
         
         // Show user location, map scale and compass
         mapView.showsUserLocation = true
-        mapView.showsScale = true
+        mapView.showsScale = false
         mapView.showsCompass = true
         mapView.isPitchEnabled = false
         

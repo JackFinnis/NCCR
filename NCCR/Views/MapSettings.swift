@@ -37,7 +37,6 @@ struct MapSettings: View {
         .cornerRadius(10)
         .compositingGroup()
         .shadow(color: Color(UIColor.systemFill), radius: 5)
-        .padding(.trailing, 10)
-        .padding(.top, 50)
+        .padding(10)
     }
 }

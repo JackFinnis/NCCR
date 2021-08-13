@@ -17,8 +17,8 @@ struct RootView: View {
                 .ignoresSafeArea()
             VStack {
                 HStack {
-                    Spacer()
                     MapSettings()
+                    Spacer()
                 }
                 Spacer()
                 HStack(spacing: 0) {

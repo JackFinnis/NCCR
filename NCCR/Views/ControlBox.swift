@@ -14,6 +14,7 @@ struct ControlBox: View {
         Group {
             if vm.selectedRoute != nil && vm.filteredRoutes.firstIndex(of: vm.selectedRoute!) != nil {
                 RouteBar(route: vm.selectedRoute!, index: vm.filteredRoutes.firstIndex(of: vm.selectedRoute!)!)
+                    .animation(.none)
             } else {
                 VStack(spacing: 0) {
                     ActionBar()
