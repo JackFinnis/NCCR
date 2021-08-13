@@ -51,7 +51,6 @@ struct RouteBar: View {
                 }
                 Button {
                     vm.selectedRoute = nil
-                    vm.zoomOut.toggle()
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 24))

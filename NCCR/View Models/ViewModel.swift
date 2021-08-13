@@ -11,15 +11,19 @@ import SwiftUI
 
 class ViewModel: NSObject, ObservableObject {
     // MARK: - Properties
-    // Routes and churches
+    // All the routes and churches
     var routes = [Route]()
     var churches = [Church]()
     
-    // Filtered features
+    // Filtered Features
     @Published var filteredRoutes = [Route]()
     @Published var filteredChurches = [Church]()
     @Published var filteredPolylines = [Polyline]()
-    @Published var selectedRoute: Route? { didSet { filterFeatures() } }
+    @Published var loading: LoadingState = .loading
+    @Published var selectedRoute: Route? { didSet {
+        filterFeatures()
+        setRegion(routes: [selectedRoute])
+    }}
     
     // Filters
     @Published var searchText: String = "" { didSet { filterFeatures() } }
@@ -28,9 +32,6 @@ class ViewModel: NSObject, ObservableObject {
     @Published var showChurches: Bool = true { didSet { filterFeatures() } }
     @Published var showVisited: Bool = true { didSet { filterFeatures() } }
     @Published var showUnvisited: Bool = true { didSet { filterFeatures() } }
-
-    @Published var showTrains: Bool = true { didSet { filterFeatures() } }
-    
     @Published var minimumDistance: Double = 0 { didSet { filterFeatures() } }
     @Published var maximumDistance: Double = 0 { didSet { filterFeatures() } }
     @Published var maximumProximity: Double = 0 { didSet { filterFeatures() } }
@@ -40,27 +41,29 @@ class ViewModel: NSObject, ObservableObject {
     }}
     
     // View state
-    @Published var loading: Bool = true
-    @Published var zoomOut: Bool = false
     @Published var animation: Animation? = .none
-    @Published var showSearchBar: Bool = false
     @Published var expandAnnotations: Bool = false
     @Published var expandVisited: Bool = false
     @Published var expandDistance: Bool = false
     @Published var expandProximity: Bool = false
-    @Published var showFilterView: Bool = false
+    @Published var showSettingsView: Bool = false
     @Published var showShareView: Bool = false
     @Published var showInfoView: Bool = false
     
-    // Map settings
+    // Search bar
+    @Published var showCancelButton: Bool = false
+    var searchBarshowCancelButton: Bool = false
+    
+    // Map
     @Published var mapType: MKMapType = .standard
     @Published var trackingMode: MKUserTrackingMode = .none
+    @Published var regionToZoom = MKCoordinateRegion()
+    @Published var updateZoomLevel: Bool = true
+    var mapUpdateZoomLevel: Bool = true
+    
     var userLocation = CLLocationCoordinate2D()
     var locationManager = CLLocationManager()
-    
-    // Map history variables
     var mapSelectedRoute: Route?
-    var mapZoomOut: Bool = false
     
     // Core Data
     var persistenceManager = PersistenceManager()
@@ -70,7 +73,7 @@ class ViewModel: NSObject, ObservableObject {
         toggleDistanceUnit()
     }}
     
-    // Totals
+    // Constants
     let totalMetres = 2_115_747
     
     // MARK: - Initialiser
@@ -89,7 +92,7 @@ class ViewModel: NSObject, ObservableObject {
     }
     
     // Load routes from the api
-    private func loadRoutes() {
+    public func loadRoutes() {
         let url = URL(string: "https://ncct.finnisjack.repl.co/routes")!
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -99,13 +102,16 @@ class ViewModel: NSObject, ObservableObject {
                         self.routes = response
                         self.extractAllChurches()
                         self.filterFeatures()
-                        self.loading = false
-                        self.zoomOut.toggle()
+                        self.loading = .loaded
+                        self.setRegion(routes: response)
                     }
                     return
                 }
             }
             print("\(error?.localizedDescription ?? "Unknown error")")
+            DispatchQueue.main.async {
+                self.loading = .error
+            }
         }.resume()
     }
     
@@ -121,7 +127,7 @@ class ViewModel: NSObject, ObservableObject {
     private func fetchVisited() {
         do {
             let context = persistenceManager.container.viewContext
-            let visitedFeaturesArray = try context.fetch(VisitedFeatures.fetchRequest())
+            let visitedFeaturesArray: [VisitedFeatures] = try context.fetch(VisitedFeatures.fetchRequest())
             
             if visitedFeaturesArray.isEmpty {
                 visitedFeatures = VisitedFeatures(context: context)
@@ -131,7 +137,7 @@ class ViewModel: NSObject, ObservableObject {
                 
                 persistenceManager.save()
             } else {
-                visitedFeatures = visitedFeaturesArray.first! as? VisitedFeatures
+                visitedFeatures = visitedFeaturesArray.first!
                 self.objectWillChange.send()
             }
         } catch {
@@ -142,14 +148,14 @@ class ViewModel: NSObject, ObservableObject {
     private func fetchSettings() {
         do {
             let context = persistenceManager.container.viewContext
-            let settingsArray = try context.fetch(Settings.fetchRequest())
+            let settingsArray: [Settings] = try context.fetch(Settings.fetchRequest())
             
             if settingsArray.isEmpty {
                 settings = Settings(context: context)
                 settings.metric = true
                 persistenceManager.save()
             } else {
-                settings = settingsArray.first! as? Settings
+                settings = settingsArray.first!
             }
             
             if settings.metric {
@@ -173,16 +179,16 @@ class ViewModel: NSObject, ObservableObject {
     
     // Filter churches
     private func filterChurches() {
-        if filter && !showChurches || (selectedRoute == nil && searchText.isEmpty) {
+        if (selectedRoute == nil && searchText.isEmpty) || (filter && (!showChurches || (selectedRoute == nil && searchText.isEmpty && showRoutes))) {
             filteredChurches = []
             return
         }
         
         var churchesToFilter = [Church]()
-        if selectedRoute != nil {
-            churchesToFilter = selectedRoute!.churches
-        } else {
+        if selectedRoute == nil {
             churchesToFilter = churches
+        } else {
+            churchesToFilter = selectedRoute!.churches
         }
         
         filteredChurches = churchesToFilter.filter { church in
@@ -201,8 +207,8 @@ class ViewModel: NSObject, ObservableObject {
                 if !showRoutes { return false }
                 if visitedRoute(id: route.id) && !showVisited { return false }
                 if !visitedRoute(id: route.id) && !showUnvisited { return false }
-                if minimumDistance > maximumDistance && route.metres < Int(minimumDistance) * 1_000 { return false }
-                if minimumDistance < maximumDistance && (route.metres > Int(maximumDistance) * 1_000 || route.metres < Int(minimumDistance) * 1_000) { return false }
+                if minimumDistance > maximumDistance && route.metres < Int(minimumDistance) { return false }
+                if minimumDistance < maximumDistance && (route.metres > Int(maximumDistance) || route.metres < Int(minimumDistance)) { return false }
                 if maximumProximity != 0 && distanceTo(route: route) > maximumProximity { return false }
             }
             if searchText.isEmpty { return true }
@@ -254,7 +260,7 @@ class ViewModel: NSObject, ObservableObject {
                 }
             }
         }
-        self.objectWillChange.send()
+        filterFeatures()
         persistenceManager.save()
     }
     
@@ -265,7 +271,7 @@ class ViewModel: NSObject, ObservableObject {
         } else {
             visitedFeatures.churches!.append(id)
         }
-        self.objectWillChange.send()
+        filterFeatures()
         persistenceManager.save()
     }
     
@@ -305,8 +311,6 @@ class ViewModel: NSObject, ObservableObject {
         }
     }
     
-    // Get formatted
-    
     // Get proportion of total distance cycled
     func getDistanceCycledSummary() -> String {
         var metres: Int = 0
@@ -316,12 +320,8 @@ class ViewModel: NSObject, ObservableObject {
             }
         }
         
-        let distanceTravelled = getDistance(metres: metres)
-        let formattedDistanceTravelled = getFormattedDistance(distance: distanceTravelled)
-        
-        let totalDistance = getDistance(metres: totalMetres)
-        let formattedTotalDistance = getFormattedDistance(distance: totalDistance)
-        let formattedTotalDistanceWithUnit = addUnit(distance: formattedTotalDistance)
+        let formattedDistanceTravelled = getFormattedDistanceWithoutUnit(metres: metres)
+        let formattedTotalDistanceWithUnit = getFormattedDistanceWithUnit(metres: totalMetres)
         
         return formattedDistanceTravelled + "/" + formattedTotalDistanceWithUnit
     }
@@ -337,6 +337,7 @@ class ViewModel: NSObject, ObservableObject {
         persistenceManager.save()
     }
     
+    // Get formatted distance from distance in unit Int
     func getFormattedDistance(distance: Int) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -350,21 +351,41 @@ class ViewModel: NSObject, ObservableObject {
         }
     }
     
+    func getFormattedDistanceWithoutUnit(metres: Int) -> String {
+        let distance = Int(getDistance(metres: metres))
+        return getFormattedDistance(distance: distance)
+    }
+    
     // Convert metres to km or miles appropriately
-    func getDistance(metres: Int) -> Int {
+    func getDistance(metres: Int) -> Double {
         if distanceUnit == .metric {
-            return metres / 1_000
+            return Double(metres) / 1_000
         } else {
-            return Int(Double(metres) / 1_609.34)
+            return Double(metres) / 1_609.34
         }
     }
     
+    // Add the preferred unit to the given distance string
     func addUnit(distance: String) -> String {
         if distanceUnit == .metric {
             return distance + " km"
         } else {
             return distance + " miles"
         }
+    }
+    
+    // Get formatted total distance
+    func getFormattedDistanceWithUnit(metres: Int) -> String {
+        let totalDistance = Int(getDistance(metres: metres))
+        let formattedTotalDistance = getFormattedDistance(distance: totalDistance)
+        return addUnit(distance: formattedTotalDistance)
+    }
+    
+    // Get the formatted density of the given route
+    func getFormattedDensity(route: Route) -> String {
+        let density = getDistance(metres: route.metres) / Double(route.churches.count)
+        let formattedDensity = addUnit(distance: String(format: "%.1f", density))
+        return formattedDensity + "/Church"
     }
     
     // MARK: - Selected Route
@@ -426,18 +447,11 @@ class ViewModel: NSObject, ObservableObject {
     
     // MARK: - Map Helper Functions
     // Get map region
-    public func getRoutesRegion(all: Bool) -> MKCoordinateRegion? {
-        var routes = [Route]()
-        if all {
-            routes = filteredRoutes
-        } else if selectedRoute != nil {
-            routes = [selectedRoute!]
-        } else {
-            return nil
-        }
-        
-        guard !routes.isEmpty else {
-            return nil
+    public func setRegion(routes: [Route?]) {
+        if routes.isEmpty { return }
+        var routesToZoomTo = routes
+        if routes.first! == nil {
+            routesToZoomTo = self.routes
         }
         
         var minLat: Double = 90
@@ -445,8 +459,15 @@ class ViewModel: NSObject, ObservableObject {
         var minLong: Double = 180
         var maxLong: Double = -180
         
-        for route in routes {
-            for coord in route.coords {
+        for route in routesToZoomTo {
+            var coords2D = [CLLocationCoordinate2D]()
+            coords2D.append(route!.coords.first!)
+            coords2D.append(route!.coords.last!)
+            for church in route!.churches {
+                coords2D.append(church.coordinate)
+            }
+            
+            for coord in coords2D {
                 if coord.latitude < minLat {
                     minLat = coord.latitude
                 }
@@ -464,10 +485,12 @@ class ViewModel: NSObject, ObservableObject {
         
         let latDelta: Double = maxLat - minLat
         let longDelta: Double = maxLong - minLong
-        let span = MKCoordinateSpan(latitudeDelta: latDelta * 1.4, longitudeDelta: longDelta * 1.4)
-        let centre = CLLocationCoordinate2D(latitude: (minLat + maxLat) * 0.5/*0.49963*/, longitude: (minLong + maxLong) * 0.5)
+        let span = MKCoordinateSpan(latitudeDelta: latDelta * 1.8, longitudeDelta: longDelta * 1.2)
+        let centre = CLLocationCoordinate2D(latitude: (minLat + maxLat) * 0.5, longitude: (minLong + maxLong) * 0.5)
         let region = MKCoordinateRegion(center: centre, span: span)
-        return region
+        
+        regionToZoom = region
+        updateZoomLevel.toggle()
     }
     
     // Get the distance between the user and route
@@ -519,23 +542,28 @@ class ViewModel: NSObject, ObservableObject {
     
     // Separation summary
     public var filterProximitySummary: String {
+        let formattedMaximumProximity = getFormattedDistanceWithUnit(metres: Int(maximumProximity))
+        
         if maximumProximity == 0 {
             return "No Filter"
         } else {
-            return "< \(Int(maximumProximity)) km away"
+            return "< " + formattedMaximumProximity + "away"
         }
     }
     
     // Distance summary
     public var filterDistanceSummary: String {
+        let formattedMinimumDistance = getFormattedDistanceWithUnit(metres: Int(minimumDistance))
+        let formattedMaximumDistance = getFormattedDistanceWithUnit(metres: Int(maximumDistance))
+        
         if minimumDistance == 0 && maximumDistance == 0 {
             return "No Filter"
         } else if minimumDistance >= maximumDistance {
-            return "> \(Int(minimumDistance)) km"
+            return "> " + formattedMinimumDistance
         } else if minimumDistance == 0 {
-            return "< \(Int(maximumDistance)) km"
+            return "< " + formattedMaximumDistance
         } else {
-            return "\(Int(minimumDistance))-\(Int(maximumDistance)) km"
+            return getFormattedDistanceWithoutUnit(metres: Int(minimumDistance)) + "-" + formattedMaximumDistance
         }
     }
     
@@ -561,19 +589,11 @@ class ViewModel: NSObject, ObservableObject {
         }
     }
     
-    public var showSearchBarImage: String {
-        if showSearchBar {
-            return "minus.magnifyingglass"
+    public var showSettingsImage: String {
+        if showSettingsView {
+            return "gearshape.fill"
         } else {
-            return "plus.magnifyingglass"
-        }
-    }
-    
-    public var filterImage: String {
-        if filter {
-            return "line.horizontal.3.decrease.circle.fill"
-        } else {
-            return "line.horizontal.3.decrease.circle"
+            return "gearshape"
         }
     }
     
@@ -626,6 +646,8 @@ extension ViewModel: MKMapViewDelegate {
         var colour: UIColor {
             if visitedRoute(id: polyline.route!.id) {
                 return .systemPink
+            } else if selectedRoute == polyline.route {
+                return .systemOrange
             } else {
                 return .systemBlue
             }
@@ -659,6 +681,34 @@ extension ViewModel: MKMapViewDelegate {
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         if animation != .default {
             animation = .default
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect: MKAnnotationView) {
+        if let routeMarker = didSelect as? RouteMarker {
+            if let route = routeMarker.annotation as? Route {
+                selectedRoute = route
+            }
+        }
+    }
+}
+
+extension ViewModel: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange: String) {
+        self.searchText = textDidChange
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBarshowCancelButton = true
+        showCancelButton = true
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        if filteredRoutes.count == 1 {
+            selectedRoute = filteredRoutes.first
+        } else {
+            setRegion(routes: filteredRoutes)
         }
     }
 }

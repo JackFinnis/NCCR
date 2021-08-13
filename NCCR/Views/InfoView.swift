@@ -7,6 +7,7 @@
 
 import SwiftUI
 import StoreKit
+import MessageUI
 
 struct InfoView: View {
     @EnvironmentObject var vm: ViewModel
@@ -14,63 +15,9 @@ struct InfoView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Visited")) {
-                    Label {
-                        if vm.visitedFeatures.routes!.count == 26 {
-                            Text("You have cycled every route!")
-                        } else {
-                            HStack {
-                                Text(String(vm.visitedFeatures.routes!.count) + "/26 Routes ")
-                                Spacer()
-                                Text(vm.getDistanceCycledSummary())
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    } icon: {
-                        Image(systemName: "bicycle")
-                    }
-                    
-                    Label {
-                        if vm.visitedFeatures.churches!.count == 632 {
-                            Text("You have visited every medieval church in Norfolk!")
-                        } else {
-                            Text(String(vm.visitedFeatures.churches!.count) + "/632 Churches")
-                        }
-                    } icon: {
-                        Image("cross")
-                            .resizable()
-                            .renderingMode(.template)
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundColor(.accentColor)
-                            .frame(height: 24)
-                    }
-                }
-                
-                Section(header: Text("Units")) {
-                    Picker("Distance Unit", selection: $vm.distanceUnit) {
-                        ForEach(DistanceUnit.allCases, id: \.self) { unit in
-                            Text(unit.rawValue)
-                        }
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                }
-                
                 Section(header: Text("About")) {
                     NavigationLink(destination: AboutView()) {
                         Label("About NCCR", systemImage: "info.circle")
-                    }
-                }
-                
-                Section(header: Text("Contribute"), footer: Text("If you have any pictures from your routes that you would like to share you can submit them here to be included in the app!")) {
-                    NavigationLink(destination: TipView()) {
-                        Label("Tip Jar", systemImage: "heart")
-                    }
-                    
-                    Button {
-                        let url = URL(string: "mailto:jack.finnis@icloud.com")!
-                        UIApplication.shared.open(url)
-                    } label: {
-                        Label("Send us Feedback", systemImage: "envelope")
                     }
                 }
                 
@@ -84,7 +31,7 @@ struct InfoView: View {
                     }
                     
                     Button {
-                        let url = URL(string: "mailto:jack.finnis@icloud.com")!
+                        let url = URL(string: "mailto:jack.finnis@icloud.com?subject=NCCR:%20Feedback")!
                         UIApplication.shared.open(url)
                     } label: {
                         Label("Send us Feedback", systemImage: "envelope")
@@ -103,6 +50,25 @@ struct InfoView: View {
                         Label("Review on the App Store", systemImage: "text.bubble")
                     }
                 }
+                
+                Section(header: Text("Give Back"), footer: Text("If you have any pictures from your routes that you would like to share you can submit them here to be included in the app!")) {
+                    NavigationLink(destination: TipView()) {
+                        Label("Tip Jar", systemImage: "heart")
+                    }
+                    
+                    Button {
+                        vm.showShareView = true
+                    } label: {
+                        Label("Share NCCR", systemImage: "square.and.arrow.up")
+                    }
+                    
+                    Button {
+                        let url = URL(string: "mailto:jack.finnis@icloud.com?subject=NCCR:%20Contribute")!
+                        UIApplication.shared.open(url)
+                    } label: {
+                        Label("Contribute Photos", systemImage: "photo")
+                    }
+                }
             }
             .navigationTitle("Info")
             .toolbar {
@@ -111,13 +77,6 @@ struct InfoView: View {
                         vm.showInfoView = false
                     } label: {
                         Text("Done")
-                    }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        vm.showShareView = true
-                    } label: {
-                        Label("Share NCCR", systemImage: "square.and.arrow.up")
                     }
                 }
             }

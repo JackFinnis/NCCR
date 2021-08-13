@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TipView: View {
     @StateObject var vm = TipViewModel()
+    @Environment(\.colorScheme) var colourScheme
     
     var body: some View {
         Form {
@@ -22,7 +23,7 @@ struct TipView: View {
                                 Text(tip.name)
                                 Spacer()
                                 Text("£" + String(format: "%.2f", tip.amount))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(colourScheme == .light ? .black : .white)
                             }
                         } icon: {
                             Text(tip.emoji)

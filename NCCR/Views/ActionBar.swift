@@ -13,47 +13,38 @@ struct ActionBar: View {
     var body: some View {
         HStack(spacing: 0) {
             Button {
-                vm.showFilterView = true
-                vm.filter = true
+                vm.showSettingsView = true
             } label: {
-                Image(systemName: vm.filterImage)
-                    .font(.system(size: 24))
-                    .frame(width: 48, height: 48)
-            }
-            Menu {
-                ForEach(SortBy.allCases, id: \.self) { sortBy in
-                    Button {
-                        vm.sortBy = sortBy
-                    } label: {
-                        Text(sortBy.rawValue)
-                    }
-                }
-            } label: {
-                Image(systemName: "arrow.up.arrow.down")
+                Image(systemName: vm.showSettingsImage)
                     .font(.system(size: 24))
                     .frame(width: 48, height: 48)
             }
             
             Spacer()
-            if vm.loading {
+            if vm.loading == .loading {
                 ProgressView()
-                    .font(.system(size: 24))
-                    .frame(width: 48, height: 48)
-                Spacer()
-            }
-            
-            Button {
-                if vm.showSearchBar == false {
-                    vm.showSearchBar = true
-                } else {
-                    vm.showSearchBar = false
-                    vm.searchText = ""
+            } else if vm.loading == .loaded {
+                Menu {
+                    ForEach(SortBy.allCases, id: \.self) { sortBy in
+                        Button {
+                            vm.sortBy = sortBy
+                        } label: {
+                            Text(sortBy.rawValue)
+                        }
+                    }
+                } label: {
+                    Text("Sort Routes")
                 }
-            } label: {
-                Image(systemName: vm.showSearchBarImage)
-                    .font(.system(size: 24))
-                    .frame(width: 48, height: 48)
+                .frame(height: 48)
+            } else {
+                Button {
+                    vm.loadRoutes()
+                } label: {
+                    Text("Reload")
+                }
             }
+            Spacer()
+            
             Button {
                 vm.showInfoView = true
             } label: {
@@ -67,8 +58,8 @@ struct ActionBar: View {
                 .preferredColorScheme(vm.mapType == .standard ? .none : .dark)
                 .environmentObject(vm)
         }
-        .sheet(isPresented: $vm.showFilterView) {
-            FilterView()
+        .sheet(isPresented: $vm.showSettingsView) {
+            SettingsView()
                 .preferredColorScheme(vm.mapType == .standard ? .none : .dark)
                 .environmentObject(vm)
         }

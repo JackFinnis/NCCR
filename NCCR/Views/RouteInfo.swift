@@ -20,12 +20,12 @@ struct RouteInfo: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
                     Text(route.stage)
-                    Text(String(Int(route.metres / 1_000)) + " km")
+                    Text(vm.getFormattedDistanceWithUnit(metres: route.metres))
                 }
                 Spacer()
                 VStack(alignment: .trailing) {
                     Text(String(route.churches.count) + " Churches")
-                    Text(String(format: "%.1f", route.density) + " km/Church")
+                    Text(vm.getFormattedDensity(route: route))
                 }
             }
             .font(.subheadline)

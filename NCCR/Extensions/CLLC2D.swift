@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 
 extension CLLocationCoordinate2D: Decodable {
     public init(from decoder: Decoder) throws {

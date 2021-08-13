@@ -14,7 +14,7 @@ struct PersistenceManager {
 
     // An initializer to load Core Data, optionally able to use an in-memory store.
     init() {
-        container = NSPersistentContainer(name: "DataModel")
+        container = NSPersistentContainer(name: "Main")
         container.loadPersistentStores { description, error in
             if let error = error {
                 fatalError("Error: \(error.localizedDescription)")

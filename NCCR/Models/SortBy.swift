@@ -11,5 +11,5 @@ enum SortBy: String, CaseIterable {
     case id = "Stage Number"
     case distance = "Distance"
     case churchDensity = "Church Density"
-    case closest = "Closest"
+    case closest = "Near Me"
 }

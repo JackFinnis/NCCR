@@ -38,23 +38,15 @@ struct MapView: UIViewRepresentable {
     
     func updateUIView(_ mapView: MKMapView, context: Context) {
         // Pan to all routes
-        if vm.mapZoomOut != vm.zoomOut {
-            vm.mapZoomOut = vm.zoomOut
-            let region = vm.getRoutesRegion(all: true)
-            if region != nil {
-                mapView.setRegion(region!, animated: true)
-            }
-            vm.trackingMode = .none
+        if vm.mapUpdateZoomLevel != vm.updateZoomLevel {
+            vm.mapUpdateZoomLevel = vm.updateZoomLevel
+            mapView.setRegion(vm.regionToZoom, animated: true)
         }
         
         // Pan to route
         if vm.mapSelectedRoute != vm.selectedRoute {
             vm.mapSelectedRoute = vm.selectedRoute
-            let region = vm.getRoutesRegion(all: false)
-            if region != nil {
-                mapView.setRegion(region!, animated: true)
-            }
-            vm.trackingMode = .none
+            mapView.setRegion(vm.regionToZoom, animated: true)
         }
         
         // Set user tracking mode
@@ -70,7 +62,7 @@ struct MapView: UIViewRepresentable {
         // Update annotations and overlays
         mapView.removeAnnotations(mapView.annotations)
         mapView.removeOverlays(mapView.overlays)
-        if !vm.loading {
+        if vm.loading == .loaded {
             if vm.selectedRoute != nil {
                 mapView.addAnnotations(vm.filteredChurches)
                 mapView.addOverlay(vm.selectedRoute!.polyline)

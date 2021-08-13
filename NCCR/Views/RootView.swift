@@ -16,11 +16,11 @@ struct RootView: View {
             MapView()
                 .ignoresSafeArea()
             VStack {
-                Spacer()
                 HStack {
                     Spacer()
                     MapSettings()
                 }
+                Spacer()
                 HStack(spacing: 0) {
                     Spacer(minLength: 10)
                     ControlBox()

@@ -8,51 +8,28 @@
 import SwiftUI
 
 struct SearchBar: UIViewRepresentable {
-    @Binding var text: String
+    @EnvironmentObject var vm: ViewModel
     
-    private var placeholder = ""
-    
-    init(text: Binding<String>) {
-        _text = text
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(text: $text)
-    }
-    
-    class Coordinator: NSObject, UISearchBarDelegate {
-        @Binding var text: String
-        
-        init(text: Binding<String>) {
-            _text = text
-        }
-        
-        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            text = searchText
-        }
-        
-        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-            searchBar.resignFirstResponder()
-        }
-    }
+    let placeholder = "Churches and Destinations"
     
     func makeUIView(context: Context) -> UISearchBar {
         let searchBar = UISearchBar()
-        searchBar.delegate = context.coordinator
+        searchBar.delegate = vm
         searchBar.placeholder = placeholder
         searchBar.backgroundImage = UIImage()
+        searchBar.autocorrectionType = .no
+        searchBar.textContentType = .location
         
         return searchBar
     }
     
-    func updateUIView(_ uiView: UISearchBar, context: Context) {
-        uiView.text = text
-        uiView.placeholder = placeholder
-    }
-    
-    func placeholder(_ string: String) -> SearchBar {
-        var searchBar = self
-        searchBar.placeholder = string
-        return searchBar
+    func updateUIView(_ searchBar: UISearchBar, context: Context) {
+        searchBar.text = vm.searchText
+        searchBar.placeholder = placeholder
+        
+        if vm.searchBarshowCancelButton && !vm.showCancelButton {
+            vm.searchBarshowCancelButton = false
+            searchBar.resignFirstResponder()
+        }
     }
 }
