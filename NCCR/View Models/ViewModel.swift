@@ -692,11 +692,27 @@ extension ViewModel: MKMapViewDelegate {
             return MKOverlayRenderer(overlay: overlay)
         }
         
+        let routeId = polyline.route!.id
         var colour: UIColor {
-            if visitedRoute(id: polyline.route!.id) {
-                return .systemPink
-            }else {
+            if visitedRoute(id: routeId) {
                 return .systemBlue
+            }
+            
+            switch routeId % 7 {
+            case 6:
+                return .systemOrange
+            case 5:
+                return .systemYellow
+            case 4:
+                return .systemGreen
+            case 3:
+                return .systemTeal
+            case 2:
+                return .systemPurple
+            case 1:
+                return .systemIndigo
+            default:
+                return .systemPink
             }
         }
         

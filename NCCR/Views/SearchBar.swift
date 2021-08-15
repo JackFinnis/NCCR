@@ -1,8 +1,8 @@
 //
 //  SearchBar.swift
-//  SearchBar
+//  NCCR
 //
-//  Created by William Finnis on 07/08/2021.
+//  Created by Finnis on 14/08/2021.
 //
 
 import SwiftUI

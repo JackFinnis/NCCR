@@ -21,7 +21,6 @@
 		F460FD0B26C58835009732E2 /* ControlBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCFC26C58835009732E2 /* ControlBox.swift */; };
 		F460FD0C26C58835009732E2 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCFD26C58835009732E2 /* ShareView.swift */; };
 		F460FD0D26C58835009732E2 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCFE26C58835009732E2 /* RootView.swift */; };
-		F460FD0E26C58835009732E2 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCFF26C58835009732E2 /* SearchBar.swift */; };
 		F460FD0F26C58835009732E2 /* RouteInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD0026C58835009732E2 /* RouteInfo.swift */; };
 		F460FD1026C58835009732E2 /* RouteBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD0126C58835009732E2 /* RouteBar.swift */; };
 		F460FD1126C58835009732E2 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD0226C58835009732E2 /* Blur.swift */; };
@@ -43,6 +42,7 @@
 		F460FD3E26C5C4F2009732E2 /* AdvancedFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD3D26C5C4F2009732E2 /* AdvancedFilters.swift */; };
 		F460FD4226C5C95D009732E2 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD4126C5C95D009732E2 /* LoadingState.swift */; };
 		F460FD4526C6FB99009732E2 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD4426C6FB99009732E2 /* UIColor.swift */; };
+		F460FDAB26C7EF6E009732E2 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FDAA26C7EF6E009732E2 /* SearchBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,7 +62,6 @@
 		F460FCFC26C58835009732E2 /* ControlBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlBox.swift; sourceTree = "<group>"; };
 		F460FCFD26C58835009732E2 /* ShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		F460FCFE26C58835009732E2 /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
-		F460FCFF26C58835009732E2 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		F460FD0026C58835009732E2 /* RouteInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteInfo.swift; sourceTree = "<group>"; };
 		F460FD0126C58835009732E2 /* RouteBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBar.swift; sourceTree = "<group>"; };
 		F460FD0226C58835009732E2 /* Blur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
@@ -84,6 +83,7 @@
 		F460FD3D26C5C4F2009732E2 /* AdvancedFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedFilters.swift; sourceTree = "<group>"; };
 		F460FD4126C5C95D009732E2 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 		F460FD4426C6FB99009732E2 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		F460FDAA26C7EF6E009732E2 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,7 +145,7 @@
 				F460FD0126C58835009732E2 /* RouteBar.swift */,
 				F460FD0026C58835009732E2 /* RouteInfo.swift */,
 				F460FCFD26C58835009732E2 /* ShareView.swift */,
-				F460FCFF26C58835009732E2 /* SearchBar.swift */,
+				F460FDAA26C7EF6E009732E2 /* SearchBar.swift */,
 				F460FCFA26C58835009732E2 /* Spinner.swift */,
 				F460FD0226C58835009732E2 /* Blur.swift */,
 			);
@@ -272,6 +272,7 @@
 				F460FD2726C5884A009732E2 /* DistanceUnit.swift in Sources */,
 				F460FD1726C5883F009732E2 /* TipViewModel.swift in Sources */,
 				F460FD3326C58851009732E2 /* ChurchMarker.swift in Sources */,
+				F460FDAB26C7EF6E009732E2 /* SearchBar.swift in Sources */,
 				F460FCEE26C58615009732E2 /* Main.xcdatamodeld in Sources */,
 				F460FD0326C58835009732E2 /* AboutView.swift in Sources */,
 				F460FD1126C58835009732E2 /* Blur.swift in Sources */,
@@ -281,7 +282,6 @@
 				F460FD2626C5884A009732E2 /* Tip.swift in Sources */,
 				F460FD0F26C58835009732E2 /* RouteInfo.swift in Sources */,
 				F460FD3226C58851009732E2 /* LocationMarker.swift in Sources */,
-				F460FD0E26C58835009732E2 /* SearchBar.swift in Sources */,
 				F460FD1926C5883F009732E2 /* PersistenceManager.swift in Sources */,
 				F460FD4226C5C95D009732E2 /* LoadingState.swift in Sources */,
 				F460FD2426C5884A009732E2 /* SortBy.swift in Sources */,
