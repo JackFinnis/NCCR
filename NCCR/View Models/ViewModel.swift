@@ -97,7 +97,7 @@ class ViewModel: NSObject, ObservableObject {
     
     // Load routes from the api
     public func loadRoutes() {
-        let url = URL(string: "https://ncct.finnisjack.repl.co/routes")!
+        let url = URL(string: "https://nccr.finnisjack.repl.co/routes")!
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let data = data {
