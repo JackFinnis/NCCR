@@ -53,6 +53,8 @@ class ViewModel: NSObject, ObservableObject {
     @Published var showSettingsView: Bool = false
     @Published var showShareView: Bool = false
     @Published var showInfoView: Bool = false
+    @Published var routesMilestone: Bool = false
+    @Published var showMilestoneAlert: Bool = false
     
     // Search bar
     @Published var showCancelButton: Bool = false
@@ -97,7 +99,7 @@ class ViewModel: NSObject, ObservableObject {
     
     // Load routes from the api
     public func loadRoutes() {
-        let url = URL(string: "https://nccr.finnisjack.repl.co/routes")!
+        let url = URL(string: "https://nccr-api.finnisjack.repl.co/routes")!
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let data = data {
@@ -202,8 +204,12 @@ class ViewModel: NSObject, ObservableObject {
     // Filter churches
     private func filterChurches() {
         var filteredRoutesChurches = [Church]()
-        for route in filteredRoutes {
-            filteredRoutesChurches.append(contentsOf: route.churches)
+        if filter && !showRoutes {
+            filteredRoutesChurches = churches
+        } else {
+            for route in filteredRoutes {
+                filteredRoutesChurches.append(contentsOf: route.churches)
+            }
         }
         
         if filter {
@@ -269,19 +275,30 @@ class ViewModel: NSObject, ObservableObject {
     // MARK: - Visited Features
     // Toggle whether given route has been visited
     func toggleVisitedRoute(route: Route) {
-        if let index = visitedFeatures.routes!.firstIndex(of: route.id) {
-            visitedFeatures.routes!.remove(at: index)
-            for church in route.churches {
-                if let index = visitedFeatures.churches!.firstIndex(of: church.id) {
-                    visitedFeatures.churches!.remove(at: index)
-                }
-            }
+        if let index = indexOfRoute(id: route.id) {
+            unvisitRoute(route: route, index: index)
         } else {
-            visitedFeatures.routes!.append(route.id)
-            for church in route.churches {
-                if !visitedFeatures.churches!.contains(church.id) {
-                    visitedFeatures.churches!.append(church.id)
-                }
+            visitRoute(route: route)
+        }
+    }
+    
+    func unvisitRoute(route: Route, index: Int) {
+        visitedFeatures.routes!.remove(at: index)
+        for church in route.churches {
+            if let index = indexOfChurch(id: church.id) {
+                visitedFeatures.churches!.remove(at: index)
+            }
+        }
+        filterFeatures()
+        persistenceManager.save()
+    }
+    
+    func visitRoute(route: Route) {
+        visitedFeatures.routes!.append(route.id)
+        checkForRouteMilestone()
+        for church in route.churches {
+            if !visitedChurch(id: church.id) {
+                visitChurch(id: church.id)
             }
         }
         filterFeatures()
@@ -291,29 +308,66 @@ class ViewModel: NSObject, ObservableObject {
     // Toggle whether given church has been visited
     func toggleVisitedChurch(id: Int) {
         if let index = visitedFeatures.churches!.firstIndex(of: id) {
-            visitedFeatures.churches!.remove(at: index)
+            unvisitChurch(index: index)
         } else {
-            visitedFeatures.churches!.append(id)
+            visitChurch(id: id)
         }
+    }
+    
+    func unvisitChurch(index: Int) {
+        visitedFeatures.churches!.remove(at: index)
         filterFeatures()
         persistenceManager.save()
     }
     
-    // Check whether given church has been visited
-    func visitedRoute(id: Int) -> Bool {
-        if visitedFeatures.routes!.contains(id) {
-            return true
-        } else {
-            return false
+    func visitChurch(id: Int) {
+        visitedFeatures.churches!.append(id)
+        checkForChurchMilestone()
+        filterFeatures()
+        persistenceManager.save()
+    }
+    
+    func checkForRouteMilestone() {
+        if visitedFeatures.routes!.count % 5 == 0 || visitedFeatures.routes!.count == 26 {
+            DispatchQueue.main.async {
+                self.routesMilestone = true
+                self.showMilestoneAlert = true
+            }
+        }
+    }
+    
+    func checkForChurchMilestone() {
+        if visitedFeatures.churches!.count % 100 == 0 || visitedFeatures.churches!.count == 632 {
+            DispatchQueue.main.async {
+                self.routesMilestone = false
+                self.showMilestoneAlert = true
+            }
         }
     }
     
     // Check whether given church has been visited
-    func visitedChurch(id: Int) -> Bool {
-        if visitedFeatures.churches!.contains(id) {
-            return true
-        } else {
+    func indexOfRoute(id: Int) -> Int? {
+        visitedFeatures.routes!.firstIndex(of: id)
+    }
+    
+    // Check whether given church has been visited
+    func indexOfChurch(id: Int) -> Int? {
+        visitedFeatures.churches!.firstIndex(of: id)
+    }
+    
+    func visitedRoute(id: Int) -> Bool {
+        if indexOfRoute(id: id) == nil {
             return false
+        } else {
+            return true
+        }
+    }
+    
+    func visitedChurch(id: Int) -> Bool {
+        if indexOfChurch(id: id) == nil {
+            return false
+        } else {
+            return true
         }
     }
     
@@ -335,19 +389,47 @@ class ViewModel: NSObject, ObservableObject {
         }
     }
     
+    func getVisitedRoutesSummary() -> String {
+        if visitedFeatures.routes!.count == 26 {
+            return "You have cycled all 26 routes!"
+        } else {
+            return "\(visitedFeatures.routes!.count)/26 routes cycled"
+        }
+    }
+    
     // Get proportion of total distance cycled
     func getDistanceCycledSummary() -> String {
-        var metres: Int = 0
-        for route in routes {
-            if visitedFeatures.routes!.contains(route.id) {
-                metres += route.metres
+        if visitedFeatures.routes!.count == 26 {
+            return "You have cycled \(getFormattedDistanceWithUnit(metres: totalMetres))!"
+        } else {
+            var metres: Int = 0
+            for route in routes {
+                if visitedFeatures.routes!.contains(route.id) {
+                    metres += route.metres
+                }
             }
+            
+            let formattedDistanceTravelled = getFormattedDistanceWithoutUnit(metres: metres)
+            let formattedTotalDistanceWithUnit = getFormattedDistanceWithUnit(metres: totalMetres)
+            
+            return formattedDistanceTravelled + "/" + formattedTotalDistanceWithUnit + " cycled"
         }
-        
-        let formattedDistanceTravelled = getFormattedDistanceWithoutUnit(metres: metres)
-        let formattedTotalDistanceWithUnit = getFormattedDistanceWithUnit(metres: totalMetres)
-        
-        return formattedDistanceTravelled + "/" + formattedTotalDistanceWithUnit
+    }
+    
+    func getVisitedChurchesSummary() -> String {
+        if visitedFeatures.churches!.count == 632 {
+            return "You have visited every medieval church in Norfolk!"
+        } else {
+            return "\(visitedFeatures.churches!.count)/632 churches visited"
+        }
+    }
+    
+    func getMilestoneSummary() -> String {
+        if routesMilestone {
+            return getVisitedRoutesSummary()
+        } else {
+            return getVisitedChurchesSummary()
+        }
     }
     
     // MARK: - Settings
@@ -752,10 +834,10 @@ extension ViewModel: MKMapViewDelegate {
             if let route = routeMarker.annotation as? Route {
                 selectedRoute = route
             }
-        } else if let churchMarker = didSelect as? ChurchMarker {
-            if let church = churchMarker.annotation as? Church {
-                UIApplication.shared.open(church.url)
-            }
+//        } else if let churchMarker = didSelect as? ChurchMarker {
+//            if let church = churchMarker.annotation as? Church {
+//                UIApplication.shared.open(church.url)
+//            }
         } else if let locationMarker = didSelect as? LocationMarker {
             if let location = locationMarker.annotation as? Location {
                 location.mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])

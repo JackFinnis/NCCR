@@ -20,6 +20,7 @@ struct RootView: View {
                     Spacer()
                     MapSettings()
                 }
+                
                 Spacer()
                 HStack(spacing: 0) {
                     Spacer(minLength: 10)
@@ -31,5 +32,12 @@ struct RootView: View {
         }
         .preferredColorScheme(vm.mapType == .standard ? .none : .dark)
         .environmentObject(vm)
+        .alert(isPresented: $vm.showMilestoneAlert) {
+            Alert(
+                title: Text("🎉 Congratulations! 🎉"),
+                message: Text(vm.getMilestoneSummary()),
+                dismissButton: .default(Text("Got it!"))
+            )
+        }
     }
 }

@@ -15,31 +15,19 @@ struct SettingsView: View {
             Form {
                 Section(header: Text("Visited Summary")) {
                     Label {
-                        if vm.visitedFeatures.routes!.count == 26 {
-                            Text("You have cycled all 26 routes!")
-                        } else {
-                            Text(String(vm.visitedFeatures.routes!.count) + "/26 Routes ")
-                        }
+                        Text(vm.getVisitedRoutesSummary())
                     } icon: {
                         Image(systemName: "bicycle")
                     }
                     
                     Label {
-                        if vm.visitedFeatures.routes!.count == 26 {
-                            Text("You have cycled all " + vm.getFormattedDistanceWithUnit(metres: vm.totalMetres) + "!")
-                        } else {
-                            Text(vm.getDistanceCycledSummary())
-                        }
+                        Text(vm.getDistanceCycledSummary())
                     } icon: {
                         Image(systemName: "ruler")
                     }
                     
                     Label {
-                        if vm.visitedFeatures.churches!.count == 632 {
-                            Text("You have visited all 632 medieval churches in Norfolk!")
-                        } else {
-                            Text(String(vm.visitedFeatures.churches!.count) + "/632 Churches")
-                        }
+                        Text(vm.getVisitedChurchesSummary())
                     } icon: {
                         Image("cross")
                             .resizable()

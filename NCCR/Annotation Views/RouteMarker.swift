@@ -17,13 +17,13 @@ class RouteMarker: MKMarkerAnnotationView {
                 let visited = vm.visitedRoute(id: route.id)
                 var colour: UIColor {
                     if visited {
-                        return .systemPink
-                    } else {
                         return .systemBlue
+                    } else {
+                        return .systemGreen
                     }
                 }
                 
-                markerTintColor = .systemBlue
+                markerTintColor = colour
                 glyphText = String(route.id)
                 displayPriority = .defaultHigh
                 animatesWhenAdded = true
