@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0464236426DD46B400536CAB /* RouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0464236326DD46B400536CAB /* RouteView.swift */; };
+		0464236626DD4D9900536CAB /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0464236526DD4D9900536CAB /* Row.swift */; };
 		F460FCDA26C58592009732E2 /* NCCRApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCD926C58592009732E2 /* NCCRApp.swift */; };
 		F460FCDE26C58594009732E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F460FCDD26C58594009732E2 /* Assets.xcassets */; };
 		F460FCEE26C58615009732E2 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F460FCEC26C58615009732E2 /* Main.xcdatamodeld */; };
@@ -46,6 +48,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0464236326DD46B400536CAB /* RouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteView.swift; sourceTree = "<group>"; };
+		0464236526DD4D9900536CAB /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
 		F460FCD626C58592009732E2 /* NCCR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NCCR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F460FCD926C58592009732E2 /* NCCRApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCCRApp.swift; sourceTree = "<group>"; };
 		F460FCDD26C58594009732E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -144,6 +148,8 @@
 				F460FCF726C58835009732E2 /* TipView.swift */,
 				F460FD0126C58835009732E2 /* RouteBar.swift */,
 				F460FD0026C58835009732E2 /* RouteInfo.swift */,
+				0464236326DD46B400536CAB /* RouteView.swift */,
+				0464236526DD4D9900536CAB /* Row.swift */,
 				F460FCFD26C58835009732E2 /* ShareView.swift */,
 				F460FDAA26C7EF6E009732E2 /* SearchBar.swift */,
 				F460FCFA26C58835009732E2 /* Spinner.swift */,
@@ -281,8 +287,10 @@
 				F460FD3126C58851009732E2 /* ClusterMarker.swift in Sources */,
 				F460FD2626C5884A009732E2 /* Tip.swift in Sources */,
 				F460FD0F26C58835009732E2 /* RouteInfo.swift in Sources */,
+				0464236426DD46B400536CAB /* RouteView.swift in Sources */,
 				F460FD3226C58851009732E2 /* LocationMarker.swift in Sources */,
 				F460FD1926C5883F009732E2 /* PersistenceManager.swift in Sources */,
+				0464236626DD4D9900536CAB /* Row.swift in Sources */,
 				F460FD4226C5C95D009732E2 /* LoadingState.swift in Sources */,
 				F460FD2426C5884A009732E2 /* SortBy.swift in Sources */,
 				F460FD1826C5883F009732E2 /* ViewModel.swift in Sources */,

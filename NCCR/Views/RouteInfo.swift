@@ -9,31 +9,35 @@ import SwiftUI
 import MapKit
 
 struct RouteInfo: View {
+    @Environment(\.colorScheme) var colourScheme
     @EnvironmentObject var vm: ViewModel
     
-    var route: Route
+    let route: Route
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(route.name)
-                .font(.headline)
-            HStack(alignment: .top) {
-                VStack(alignment: .leading) {
-                    Text(route.stage)
-                    Text(vm.getFormattedDistanceWithUnit(metres: route.metres))
+        HStack {
+            VStack(alignment: .leading) {
+                Text(route.name)
+                    .font(.headline)
+                    .foregroundColor(colourScheme == .light ? .black : .white)
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading) {
+                        Text(route.stage)
+                        Text(vm.getFormattedDistanceWithUnit(metres: route.metres))
+                    }
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text(String(route.churches.count) + " Churches")
+                        Text(vm.getFormattedDensity(route: route))
+                    }
                 }
-                Spacer()
-                VStack(alignment: .trailing) {
-                    Text(String(route.churches.count) + " Churches")
-                    Text(vm.getFormattedDensity(route: route))
-                }
+                .font(.subheadline)
+                .foregroundColor(.secondary)
             }
-            .font(.subheadline)
-            .foregroundColor(.secondary)
-        }
-        .padding(.vertical, 10)
-        .onTapGesture {
-            vm.selectedRoute = vm.selectedRoute
+            .padding(.vertical, 10)
+            
+            Image(systemName: "chevron.right")
+                .foregroundColor(.accentColor)
         }
     }
 }

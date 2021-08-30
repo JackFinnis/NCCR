@@ -10,8 +10,8 @@ import SwiftUI
 struct RouteBar: View {
     @EnvironmentObject var vm: ViewModel
     
-    var route: Route
-    var index: Int
+    let route: Route
+    let index: Int
     
     var body: some View {
         HStack(spacing: 0) {
@@ -37,8 +37,10 @@ struct RouteBar: View {
                 }
             }
             
-            RouteInfo(route: route)
-                .frame(idealHeight: 96)
+            NavigationLink(destination: RouteView(route: route)) {
+                RouteInfo(route: route)
+                    .frame(idealHeight: 96)
+            }
             
             VStack(spacing: 0) {
                 Button {

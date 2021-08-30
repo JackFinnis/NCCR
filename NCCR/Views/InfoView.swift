@@ -7,12 +7,11 @@
 
 import SwiftUI
 import StoreKit
-import MessageUI
 
 struct InfoView: View {
     @EnvironmentObject var vm: ViewModel
     
-    let email: String = "jack.finnis@icloud.com"
+    let email: String = "contact.nccr@gmail.com"
     let appUrl: String = "https://itunes.apple.com/app/id1580773042"
     
     var body: some View {

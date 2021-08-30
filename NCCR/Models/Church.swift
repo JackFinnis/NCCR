@@ -14,7 +14,6 @@ class Church: NSObject, MKAnnotation, Decodable, Identifiable {
     let url: URL
     let coordinate: CLLocationCoordinate2D
     
-//    var url: URL { URL(string: urlString)! }
     var title: String? { name }
     var subtitle: String? { "Church" }
     
