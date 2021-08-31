@@ -24,6 +24,7 @@ struct RouteView: View {
                         route.locations[0].mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
                     } label: {
                         Image(systemName: "location.circle")
+                            .font(.system(size: 24))
                     }
                 }
                 HStack {
@@ -34,6 +35,7 @@ struct RouteView: View {
                         route.locations[1].mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
                     } label: {
                         Image(systemName: "location.circle")
+                            .font(.system(size: 24))
                     }
                 }
             }
@@ -50,14 +52,21 @@ struct RouteView: View {
                         Text(String(i+1))
                             .font(.headline)
                         Text(route.churches[i].name)
-                            .lineLimit(1)
                         Spacer()
                         Button {
                             vm.toggleVisitedChurch(id: route.churches[i].id)
                         } label: {
                             Image(systemName: vm.visitedChurchImage(id: route.churches[i].id))
+                                .font(.system(size: 24))
+                        }
+                        Button {
+                            UIApplication.shared.open(route.churches[i].url)
+                        } label: {
+                            Image(systemName: "info.circle")
+                                .font(.system(size: 24))
                         }
                     }
+                    .buttonStyle(BorderlessButtonStyle())
                 }
             }
         }

@@ -21,7 +21,6 @@ struct RootView: View {
                         Spacer()
                         MapSettings()
                     }
-                    
                     Spacer()
                     HStack(spacing: 0) {
                         Spacer(minLength: 10)
@@ -34,6 +33,7 @@ struct RootView: View {
             .navigationTitle("See on map")
             .navigationBarHidden(true)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         .preferredColorScheme(vm.mapType == .standard ? .none : .dark)
         .environmentObject(vm)
         .alert(isPresented: $vm.showMilestoneAlert) {
