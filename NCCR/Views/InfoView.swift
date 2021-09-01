@@ -53,7 +53,7 @@ struct InfoView: View {
                     }
                 }
                 
-                Section(header: Text("Give Back"), footer: Text("If you have any pictures from your routes that you would like to share you can submit them here to be included in the app!")) {
+                Section(header: Text("Contribute"), footer: Text("If you have any pictures from your routes that you would like to share you can submit them here to be included in the app!")) {
 //                    NavigationLink(destination: TipView()) {
 //                        Label("Tip Jar", systemImage: "heart")
 //                    }

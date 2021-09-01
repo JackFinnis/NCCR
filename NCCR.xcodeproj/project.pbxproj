@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0464236426DD46B400536CAB /* RouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0464236326DD46B400536CAB /* RouteView.swift */; };
 		0464236626DD4D9900536CAB /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0464236526DD4D9900536CAB /* Row.swift */; };
+		047C95B026DFF6A20077F774 /* ChurchRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047C95AF26DFF6A20077F774 /* ChurchRow.swift */; };
 		F460FCDA26C58592009732E2 /* NCCRApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FCD926C58592009732E2 /* NCCRApp.swift */; };
 		F460FCDE26C58594009732E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F460FCDD26C58594009732E2 /* Assets.xcassets */; };
 		F460FCEE26C58615009732E2 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F460FCEC26C58615009732E2 /* Main.xcdatamodeld */; };
@@ -43,13 +44,13 @@
 		F460FD3726C58856009732E2 /* CLLC2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD3626C58856009732E2 /* CLLC2D.swift */; };
 		F460FD3E26C5C4F2009732E2 /* AdvancedFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD3D26C5C4F2009732E2 /* AdvancedFilters.swift */; };
 		F460FD4226C5C95D009732E2 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD4126C5C95D009732E2 /* LoadingState.swift */; };
-		F460FD4526C6FB99009732E2 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FD4426C6FB99009732E2 /* UIColor.swift */; };
 		F460FDAB26C7EF6E009732E2 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460FDAA26C7EF6E009732E2 /* SearchBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0464236326DD46B400536CAB /* RouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteView.swift; sourceTree = "<group>"; };
 		0464236526DD4D9900536CAB /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
+		047C95AF26DFF6A20077F774 /* ChurchRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChurchRow.swift; sourceTree = "<group>"; };
 		F460FCD626C58592009732E2 /* NCCR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NCCR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F460FCD926C58592009732E2 /* NCCRApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCCRApp.swift; sourceTree = "<group>"; };
 		F460FCDD26C58594009732E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -86,7 +87,6 @@
 		F460FD3626C58856009732E2 /* CLLC2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLLC2D.swift; sourceTree = "<group>"; };
 		F460FD3D26C5C4F2009732E2 /* AdvancedFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedFilters.swift; sourceTree = "<group>"; };
 		F460FD4126C5C95D009732E2 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
-		F460FD4426C6FB99009732E2 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		F460FDAA26C7EF6E009732E2 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -149,6 +149,7 @@
 				F460FD0126C58835009732E2 /* RouteBar.swift */,
 				F460FD0026C58835009732E2 /* RouteInfo.swift */,
 				0464236326DD46B400536CAB /* RouteView.swift */,
+				047C95AF26DFF6A20077F774 /* ChurchRow.swift */,
 				0464236526DD4D9900536CAB /* Row.swift */,
 				F460FCFD26C58835009732E2 /* ShareView.swift */,
 				F460FDAA26C7EF6E009732E2 /* SearchBar.swift */,
@@ -198,7 +199,6 @@
 			isa = PBXGroup;
 			children = (
 				F460FD3626C58856009732E2 /* CLLC2D.swift */,
-				F460FD4426C6FB99009732E2 /* UIColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -280,6 +280,7 @@
 				F460FD3326C58851009732E2 /* ChurchMarker.swift in Sources */,
 				F460FDAB26C7EF6E009732E2 /* SearchBar.swift in Sources */,
 				F460FCEE26C58615009732E2 /* Main.xcdatamodeld in Sources */,
+				047C95B026DFF6A20077F774 /* ChurchRow.swift in Sources */,
 				F460FD0326C58835009732E2 /* AboutView.swift in Sources */,
 				F460FD1126C58835009732E2 /* Blur.swift in Sources */,
 				F460FD2826C5884A009732E2 /* Polyline.swift in Sources */,
@@ -302,7 +303,6 @@
 				F460FD0A26C58835009732E2 /* MapView.swift in Sources */,
 				F460FD0D26C58835009732E2 /* RootView.swift in Sources */,
 				F460FD3726C58856009732E2 /* CLLC2D.swift in Sources */,
-				F460FD4526C6FB99009732E2 /* UIColor.swift in Sources */,
 				F460FCDA26C58592009732E2 /* NCCRApp.swift in Sources */,
 				F460FD1026C58835009732E2 /* RouteBar.swift in Sources */,
 				F460FD3E26C5C4F2009732E2 /* AdvancedFilters.swift in Sources */,
@@ -437,7 +437,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = T4L8JBB88A;
 				ENABLE_PREVIEWS = YES;
@@ -463,7 +463,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = T4L8JBB88A;
 				ENABLE_PREVIEWS = YES;

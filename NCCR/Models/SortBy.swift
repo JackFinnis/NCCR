@@ -8,7 +8,7 @@
 import Foundation
 
 enum SortBy: String, CaseIterable {
-    case id = "Route Number"
+    case id = "Stage Number"
     case distance = "Distance"
     case churchDensity = "Church Density"
     case closest = "Near Me"
