@@ -15,7 +15,7 @@ struct ActionBar: View {
             Button {
                 vm.showSettingsView = true
             } label: {
-                Image(systemName: vm.showSettingsImage)
+                Image(systemName: "gearshape")
                     .font(.system(size: 24))
                     .frame(width: 48, height: 48)
             }
@@ -52,7 +52,7 @@ struct ActionBar: View {
             Button {
                 vm.showInfoView = true
             } label: {
-                Image(systemName: vm.showInfoImage)
+                Image(systemName: "info.circle")
                     .font(.system(size: 24))
                     .frame(width: 48, height: 48)
             }

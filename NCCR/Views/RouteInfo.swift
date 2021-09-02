@@ -35,9 +35,6 @@ struct RouteInfo: View {
                 .foregroundColor(.secondary)
             }
             .padding(.vertical, 10)
-            
-            Image(systemName: "chevron.right")
-                .foregroundColor(.accentColor)
         }
     }
 }

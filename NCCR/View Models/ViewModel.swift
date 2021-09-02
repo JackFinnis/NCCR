@@ -720,22 +720,6 @@ class ViewModel: NSObject, ObservableObject {
         }
     }
     
-    public var showSettingsImage: String {
-        if showSettingsView {
-            return "gearshape.fill"
-        } else {
-            return "gearshape"
-        }
-    }
-    
-    public var showInfoImage: String {
-        if showInfoView {
-            return "info.circle.fill"
-        } else {
-            return "info.circle"
-        }
-    }
-    
     // MARK: - Update Functions
     // User tracking mode button pressed
     public func updateTrackingMode() {

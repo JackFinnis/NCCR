@@ -1,47 +1,30 @@
 //
 //  RootView.swift
-//  RootView
+//  NCCR
 //
-//  Created by William Finnis on 05/08/2021.
+//  Created by Jack Finnis on 02/09/2021.
 //
 
 import SwiftUI
-import CoreLocation
 
 struct RootView: View {
-    @StateObject var vm = ViewModel()
+    var launchedBefore: Bool {
+        if UserDefaults.standard.bool(forKey: "lauchedBefore") {
+            return true
+        } else {
+            UserDefaults.standard.set(true, forKey: "lauchedBefore")
+            return false
+        }
+    }
     
     var body: some View {
         NavigationView {
-            ZStack {
-                MapView()
-                    .ignoresSafeArea()
-                VStack {
-                    HStack {
-                        Spacer()
-                        MapSettings()
-                    }
-                    Spacer()
-                    HStack(spacing: 0) {
-                        Spacer(minLength: 10)
-                        ControlBox()
-                            .frame(maxWidth: 450)
-                    }
-                }
-                .animation(vm.animation)
+            if launchedBefore {
+                RoutesView()
+            } else {
+                WelcomeView()
             }
-            .navigationTitle("See on map")
-            .navigationBarHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .preferredColorScheme(vm.mapType == .standard ? .none : .dark)
-        .environmentObject(vm)
-        .alert(isPresented: $vm.showMilestoneAlert) {
-            Alert(
-                title: Text("🎉 Congratulations! 🎉"),
-                message: Text(vm.getMilestoneSummary()),
-                dismissButton: .default(Text("Got it!"))
-            )
-        }
     }
 }

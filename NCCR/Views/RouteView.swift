@@ -12,15 +12,18 @@ struct RouteView: View {
     @EnvironmentObject var vm: ViewModel
     
     let route: Route
-    let email: String = "contact.nccr@gmail.com"
     
     var body: some View {
         Form {
-            if route.routeTitle != nil {
+            if route.routeTitle != nil || route.routeDescription != nil {
                 Section(header: Text("Details")) {
-                    Text(route.routeTitle!)
-                        .bold()
-                    Text(route.routeDescription!)
+                    if route.routeTitle != nil {
+                        Text(route.routeTitle!)
+                            .bold()
+                    }
+                    if route.routeDescription != nil {
+                        Text(route.routeDescription!)
+                    }
                 }
             }
             
@@ -71,18 +74,11 @@ struct RouteView: View {
                 }
             }
             
-            Section(header: Text("Contribute"), footer: Text(route.directions != nil ? "" : "This route needs a title, description and detailed directions. If you would like to contribute these details please contact us above.")) {
-                Button {
-                    let url = URL(string: "mailto:" + email + "?subject=NCCR:%20Contribute")!
-                    UIApplication.shared.open(url)
-                } label: {
-                    Label("Contribute Photos", systemImage: "photo")
-                }
-                Button {
-                    let url = URL(string: "mailto:" + email + "?subject=NCCR:%20Contribute")!
-                    UIApplication.shared.open(url)
-                } label: {
-                    Label("Contribute Details", systemImage: "square.and.pencil")
+            if route.directions == nil {
+                Section(header: Text("Contribute"), footer: Text("This route needs a title, description, detailed directions and some photos. If you would like to contribute any of these details please follow the link above")) {
+                    NavigationLink(destination: ContributeView()) {
+                        Label("Contribute", systemImage: "star")
+                    }
                 }
             }
         }

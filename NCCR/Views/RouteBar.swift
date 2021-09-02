@@ -37,16 +37,14 @@ struct RouteBar: View {
                 }
             }
             
-            NavigationLink(destination: RouteView(route: route)) {
+            NavigationLink(destination: RouteView(route: route).environmentObject(vm)) {
                 RouteInfo(route: route)
                     .frame(idealHeight: 96)
             }
             
             VStack(spacing: 0) {
-                Button {
-                    vm.toggleVisitedRoute(route: route)
-                } label: {
-                    Image(systemName: vm.visitedRouteImage(id: route.id))
+                NavigationLink(destination: RouteView(route: route).environmentObject(vm)) {
+                    Image(systemName: "info.circle")
                         .font(.system(size: 24))
                         .frame(width: 48, height: 48)
                 }

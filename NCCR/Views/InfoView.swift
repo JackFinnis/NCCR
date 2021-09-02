@@ -23,20 +23,13 @@ struct InfoView: View {
                     }
                 }
                 
-                Section(header: Text("Feedback"), footer: Text("If you have any ideas for new features to improve the app you can submit them here.")) {
+                Section(header: Text("Feedback")) {
                     Button {
                         if let windowScene = UIApplication.shared.windows.first?.windowScene {
                             SKStoreReviewController.requestReview(in: windowScene)
                         }
                     } label: {
-                        Label("Rate NCCR", systemImage: "star")
-                    }
-                    
-                    Button {
-                        let url = URL(string: "mailto:" + email + "?subject=NCCR:%20Feedback")!
-                        UIApplication.shared.open(url)
-                    } label: {
-                        Label("Send us Feedback", systemImage: "envelope")
+                        Label("Rate NCCR", systemImage: "hand.thumbsup")
                     }
                     
                     Button {
@@ -51,12 +44,6 @@ struct InfoView: View {
                     } label: {
                         Label("Review on the App Store", systemImage: "text.bubble")
                     }
-                }
-                
-                Section(header: Text("Contribute"), footer: Text("If you have any pictures from your routes that you would like to share you can submit them here to be included in the app!")) {
-//                    NavigationLink(destination: TipView()) {
-//                        Label("Tip Jar", systemImage: "heart")
-//                    }
                     
                     Button {
                         vm.showShareView = true
@@ -64,11 +51,8 @@ struct InfoView: View {
                         Label("Share NCCR", systemImage: "square.and.arrow.up")
                     }
                     
-                    Button {
-                        let url = URL(string: "mailto:" + email + "?subject=NCCR:%20Contribute")!
-                        UIApplication.shared.open(url)
-                    } label: {
-                        Label("Contribute Photos", systemImage: "photo")
+                    NavigationLink(destination: ContributeView()) {
+                        Label("Contribute", systemImage: "star")
                     }
                 }
             }
