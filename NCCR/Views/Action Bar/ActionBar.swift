@@ -10,10 +10,13 @@ import SwiftUI
 struct ActionBar: View {
     @EnvironmentObject var vm: ViewModel
     
+    @State var showSettingsView: Bool = false
+    @State var showInfoView: Bool = false
+    
     var body: some View {
         HStack(spacing: 0) {
             Button {
-                vm.showSettingsView = true
+                showSettingsView = true
             } label: {
                 Image(systemName: "gearshape")
                     .font(.system(size: 24))
@@ -34,7 +37,7 @@ struct ActionBar: View {
                             }
                         }
                     } label: {
-                        Text("Sort Routes")
+                        Text("Sort Stages")
                     }
                     .frame(height: 48)
                 } else {
@@ -50,19 +53,19 @@ struct ActionBar: View {
             .animation(.none, value: vm.loading)
             
             Button {
-                vm.showInfoView = true
+                showInfoView = true
             } label: {
                 Image(systemName: "info.circle")
                     .font(.system(size: 24))
                     .frame(width: 48, height: 48)
             }
         }
-        .sheet(isPresented: $vm.showInfoView) {
+        .sheet(isPresented: $showInfoView) {
             InfoView()
                 .preferredColorScheme(vm.mapType == .standard ? .none : .dark)
                 .environmentObject(vm)
         }
-        .sheet(isPresented: $vm.showSettingsView) {
+        .sheet(isPresented: $showSettingsView) {
             SettingsView()
                 .preferredColorScheme(vm.mapType == .standard ? .none : .dark)
                 .environmentObject(vm)

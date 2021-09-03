@@ -9,27 +9,38 @@ import SwiftUI
 
 struct WelcomeView: View {
     var body: some View {
-        VStack {
-            Image("logo")
-                .resizable()
-                .frame(width: 200, height: 200)
-                .cornerRadius(35)
-                .padding(10)
-            
+        ScrollView(showsIndicators: false) {
             VStack {
-                Text("1300 miles of glorious cycling,")
-                Text("over 600 fascinating medieval churches,")
-                Text("and no hills!")
-            }
-            .padding(10)
-            
-            Text("Welcome to The Norfolk Churches Cycling Routes")
+                Image("logo")
+                    .resizable()
+                    .frame(width: 200, height: 200)
+                    .cornerRadius(35)
+                    .padding(10)
+                
+                Text("""
+                    1300 miles of glorious cycling,
+                    over 600 fascinating medieval churches,
+                    and no hills!
+                    """)
                 .padding(10)
-            
-            NavigationLink(destination: RoutesView()) {
-                Text("Explore the routes!")
-                    .font(.headline)
-                    .padding()
+                
+                Text("Welcome to The Norfolk Churches Cycle Route")
+                    .padding(10)
+                
+                NavigationLink(destination: RoutesView()) {
+                    Text("Explore the route!")
+                        .font(.headline)
+                        .padding()
+                }
+                
+                Text("""
+                    Please note this project is in the development and testing phase. There will be glitches!
+                    Please follow the links in the info page if you would like to contribute photos and get involved in the project!
+                    Justin & Jack
+                    """)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .padding(10)
             }
         }
         .padding()

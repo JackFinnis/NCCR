@@ -10,8 +10,13 @@ import SwiftUI
 struct AdvancedFilters: View {
     @EnvironmentObject var vm: ViewModel
     
+    @State var expandAnnotations: Bool = false
+    @State var expandVisited: Bool = false
+    @State var expandDistance: Bool = false
+    @State var expandProximity: Bool = false
+    
     var body: some View {
-        DisclosureGroup(isExpanded: $vm.expandAnnotations) {
+        DisclosureGroup(isExpanded: $expandAnnotations) {
             Toggle("Show Routes", isOn: $vm.showRoutes)
             Toggle("Show Churches", isOn: $vm.showChurches)
         } label: {
@@ -23,7 +28,7 @@ struct AdvancedFilters: View {
             }
         }
         
-        DisclosureGroup(isExpanded: $vm.expandVisited) {
+        DisclosureGroup(isExpanded: $expandVisited) {
             Toggle("Show Visited", isOn: $vm.showVisited)
                 .toggleStyle(SwitchToggleStyle(tint: Color(UIColor.systemBlue)))
             Toggle("Show Unvisited", isOn: $vm.showUnvisited)
@@ -36,7 +41,7 @@ struct AdvancedFilters: View {
             }
         }
         
-        DisclosureGroup(isExpanded: $vm.expandDistance) {
+        DisclosureGroup(isExpanded: $expandDistance) {
             Slider(value: $vm.minimumDistance, in: 0...115_000, step: 5_000, minimumValueLabel: Text("Minimum"), maximumValueLabel: Text("")) {
                 Text("Minimum Distance")
             }
@@ -45,20 +50,20 @@ struct AdvancedFilters: View {
             }
         } label: {
             HStack {
-                Text("Route Distance")
+                Text("Stage Distance")
                 Spacer()
                 Text(vm.filterDistanceSummary)
                     .foregroundColor(.secondary)
             }
         }
         
-        DisclosureGroup(isExpanded: $vm.expandProximity) {
+        DisclosureGroup(isExpanded: $expandProximity) {
             Slider(value: $vm.maximumProximity, in: 0...115_000, step: 5_000, minimumValueLabel: Text("Maximum"), maximumValueLabel: Text("")) {
                 Text("Maximum Proximity")
             }
         } label: {
             HStack {
-                Text("Route Proximity")
+                Text("Stage Proximity")
                 Spacer()
                 Text(vm.filterProximitySummary)
                     .foregroundColor(.secondary)

@@ -37,10 +37,9 @@ struct RouteBar: View {
                 }
             }
             
-            NavigationLink(destination: RouteView(route: route).environmentObject(vm)) {
-                RouteInfo(route: route)
-                    .frame(idealHeight: 96)
-            }
+            RouteInfo(route: route)
+                .frame(idealHeight: 96)
+                .animation(.none, value: vm.selectedRoute)
             
             VStack(spacing: 0) {
                 NavigationLink(destination: RouteView(route: route).environmentObject(vm)) {

@@ -18,7 +18,7 @@ struct MapSettings: View {
             } label: {
                 Image(systemName: vm.mapTypeImage)
                     .frame(width: 48, height: 48)
-                    .animation(.none, value: vm.mapType)
+                    .animation(.none, value: vm.mapTypeImage)
             }
             
             Divider()
@@ -29,7 +29,7 @@ struct MapSettings: View {
             } label: {
                 Image(systemName: vm.trackingModeImage)
                     .frame(width: 48, height: 48)
-                    .animation(.none, value: vm.trackingMode)
+                    .animation(.none, value: vm.trackingModeImage)
             }
         }
         .font(.system(size: 24))

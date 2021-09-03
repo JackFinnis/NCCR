@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var vm: ViewModel
     
     var body: some View {
@@ -56,13 +57,10 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        vm.showSettingsView = false
-                        vm.setRegion(routes: vm.filteredRoutes, churches: nil, locations: nil)
-                    } label: {
-                        Text("Done")
-                    }
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Text("Done")
                 }
             }
         }

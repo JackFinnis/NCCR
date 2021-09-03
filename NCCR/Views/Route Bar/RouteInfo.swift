@@ -36,5 +36,8 @@ struct RouteInfo: View {
             }
             .padding(.vertical, 10)
         }
+        .onTapGesture {
+            vm.selectedRoute = route
+        }
     }
 }

@@ -27,7 +27,7 @@ struct ControlBox: View {
                             Button {
                                 vm.showCancelButton = false
                                 vm.searchText = ""
-                                vm.setRegion(routes: vm.filteredRoutes, churches: nil, locations: nil)
+                                vm.setRegion(routes: vm.filteredRoutes, churches: vm.filteredChurches, locations: nil)
                             } label: {
                                 Text("Cancel")
                             }

@@ -32,13 +32,42 @@ class ViewModel: NSObject, ObservableObject {
     // Filters
     @Published var searchText: String = "" { didSet { filterFeatures() } }
     @Published var filter: Bool = false { didSet { filterFeatures() } }
-    @Published var showRoutes: Bool = true { didSet { filterFeatures() } }
-    @Published var showChurches: Bool = true { didSet { filterFeatures() } }
-    @Published var showVisited: Bool = true { didSet { filterFeatures() } }
-    @Published var showUnvisited: Bool = true { didSet { filterFeatures() } }
-    @Published var minimumDistance: Double = 0 { didSet { filterFeatures() } }
-    @Published var maximumDistance: Double = 0 { didSet { filterFeatures() } }
-    @Published var maximumProximity: Double = 0 { didSet { filterFeatures() } }
+    
+    // Update variables too
+    @Published var filterAnnotationsSummary = "No Filter"
+    @Published var filterVisitedSummary = "No Filter"
+    @Published var filterProximitySummary = "No Filter"
+    @Published var filterDistanceSummary = "No Filter"
+    @Published var trackingModeImage = "location"
+    @Published var mapTypeImage = "globe"
+    @Published var showRoutes: Bool = true { didSet {
+        updateFilterAnnotationsSummary()
+        filterFeatures()
+    }}
+    @Published var showChurches: Bool = true { didSet {
+        updateFilterAnnotationsSummary()
+        filterFeatures()
+    }}
+    @Published var showVisited: Bool = true { didSet {
+        updateFilterVisitedSummary()
+        filterFeatures()
+    }}
+    @Published var showUnvisited: Bool = true { didSet {
+        updateFilterVisitedSummary()
+        filterFeatures()
+    }}
+    @Published var minimumDistance: Double = 0 { didSet {
+        updateFilterDistanceSummary()
+        filterFeatures()
+    }}
+    @Published var maximumDistance: Double = 0 { didSet {
+        updateFilterDistanceSummary()
+        filterFeatures()
+    }}
+    @Published var maximumProximity: Double = 0 { didSet {
+        updateFilterProximitySummary()
+        filterFeatures()
+    }}
     @Published var sortBy: SortBy = .id { didSet {
         sortRoutes()
         selectFirstRoute()
@@ -46,23 +75,20 @@ class ViewModel: NSObject, ObservableObject {
     
     // View state
     @Published var animation: Animation? = .none
-    @Published var expandAnnotations: Bool = false
-    @Published var expandVisited: Bool = false
-    @Published var expandDistance: Bool = false
-    @Published var expandProximity: Bool = false
-    @Published var showSettingsView: Bool = false
-    @Published var showShareView: Bool = false
-    @Published var showInfoView: Bool = false
     @Published var routesMilestone: Bool = false
     @Published var showMilestoneAlert: Bool = false
     
     // Search bar
     @Published var showCancelButton: Bool = false
-    var searchBarshowCancelButton: Bool = false
+    var searchBarShowCancelButton: Bool = false
     
     // Map
-    @Published var mapType: MKMapType = .standard
-    @Published var trackingMode: MKUserTrackingMode = .none
+    @Published var mapType: MKMapType = .standard { didSet {
+        updateMapTypeImage()
+    }}
+    @Published var trackingMode: MKUserTrackingMode = .none { didSet {
+        updateTrackingModeImage()
+    }}
     @Published var regionToZoom = MKCoordinateRegion()
     @Published var updateZoomLevel: Bool = true
     var mapUpdateZoomLevel: Bool = true
@@ -78,9 +104,6 @@ class ViewModel: NSObject, ObservableObject {
     @Published var distanceUnit: DistanceUnit = .metric { didSet {
         toggleDistanceUnit()
     }}
-    
-    // Constants
-    let totalMetres = 2_115_747
     
     // MARK: - Initialiser
     override init() {
@@ -328,7 +351,7 @@ class ViewModel: NSObject, ObservableObject {
     }
     
     func checkForRouteMilestone() {
-        if visitedFeatures.routes!.count % 5 == 0 || visitedFeatures.routes!.count == 26 {
+        if visitedFeatures.routes!.count % 5 == 0 || visitedFeatures.routes!.count == routes.count {
             DispatchQueue.main.async {
                 self.routesMilestone = true
                 self.showMilestoneAlert = true
@@ -337,7 +360,7 @@ class ViewModel: NSObject, ObservableObject {
     }
     
     func checkForChurchMilestone() {
-        if visitedFeatures.churches!.count % 100 == 0 || visitedFeatures.churches!.count == 632 {
+        if visitedFeatures.churches!.count % 100 == 0 || visitedFeatures.churches!.count == churches.count {
             DispatchQueue.main.async {
                 self.routesMilestone = false
                 self.showMilestoneAlert = true
@@ -390,17 +413,17 @@ class ViewModel: NSObject, ObservableObject {
     }
     
     func getVisitedRoutesSummary() -> String {
-        if visitedFeatures.routes!.count == 26 {
-            return "You have cycled all 26 routes!"
+        if visitedFeatures.routes!.count == routes.count {
+            return "You have cycled The Norfolk Churches Cycle Route"
         } else {
-            return "\(visitedFeatures.routes!.count)/26 routes cycled"
+            return "\(visitedFeatures.routes!.count)/" + String(routes.count) + " stages cycled"
         }
     }
     
     // Get proportion of total distance cycled
     func getDistanceCycledSummary() -> String {
-        if visitedFeatures.routes!.count == 26 {
-            return "You have cycled \(getFormattedDistanceWithUnit(metres: totalMetres))!"
+        if visitedFeatures.routes!.count == routes.count {
+            return "You have cycled \(getFormattedDistanceWithUnit(metres: getTotalMetres()))!"
         } else {
             var metres: Int = 0
             for route in routes {
@@ -410,17 +433,17 @@ class ViewModel: NSObject, ObservableObject {
             }
             
             let formattedDistanceTravelled = getFormattedDistanceWithoutUnit(metres: metres)
-            let formattedTotalDistanceWithUnit = getFormattedDistanceWithUnit(metres: totalMetres)
+            let formattedTotalDistanceWithUnit = getFormattedDistanceWithUnit(metres: getTotalMetres())
             
             return formattedDistanceTravelled + "/" + formattedTotalDistanceWithUnit + " cycled"
         }
     }
     
     func getVisitedChurchesSummary() -> String {
-        if visitedFeatures.churches!.count == 632 {
+        if visitedFeatures.churches!.count == churches.count {
             return "You have visited every medieval church in Norfolk!"
         } else {
-            return "\(visitedFeatures.churches!.count)/632 churches visited"
+            return "\(visitedFeatures.churches!.count)/" + String(churches.count) + " churches visited"
         }
     }
     
@@ -492,6 +515,10 @@ class ViewModel: NSObject, ObservableObject {
         let density = getDistance(metres: route.metres) / Double(route.churches.count)
         let formattedDensity = addUnit(distance: String(format: "%.1f", density))
         return formattedDensity + "/Church"
+    }
+    
+    func getTotalMetres() -> Int {
+        routes.map { $0.metres }.reduce(0, +)
     }
     
     // MARK: - Selected Route
@@ -646,77 +673,77 @@ class ViewModel: NSObject, ObservableObject {
     
     // MARK: - Filter Summaries
     // Annotation summary
-    public var filterAnnotationsSummary: String {
+    func updateFilterAnnotationsSummary() {
         if showRoutes && showChurches {
-            return "No Filter"
+            filterAnnotationsSummary = "No Filter"
         } else if showRoutes {
-            return "Routes"
+            filterAnnotationsSummary = "Routes"
         } else if showChurches {
-            return "Churches"
+            filterAnnotationsSummary = "Churches"
         } else {
-            return "No Features"
+            filterAnnotationsSummary = "No Features"
         }
     }
     
     // Visited summary
-    public var filterVisitedSummary: String {
+    func updateFilterVisitedSummary() {
         if showVisited && showUnvisited {
-            return "No Filter"
+            filterVisitedSummary = "No Filter"
         } else if showVisited {
-            return "Visited"
+            filterVisitedSummary = "Visited"
         } else if showUnvisited {
-            return "Unvisited"
+            filterVisitedSummary = "Unvisited"
         } else {
-            return "No Features"
+            filterVisitedSummary = "No Features"
         }
     }
     
     // Separation summary
-    public var filterProximitySummary: String {
+    func updateFilterProximitySummary() {
         let formattedMaximumProximity = getFormattedDistanceWithUnit(metres: Int(maximumProximity))
         
         if maximumProximity == 0 {
-            return "No Filter"
+            filterProximitySummary = "No Filter"
         } else {
-            return "< " + formattedMaximumProximity + " away"
+            filterProximitySummary = "< " + formattedMaximumProximity + " away"
         }
     }
     
     // Distance summary
-    public var filterDistanceSummary: String {
+    func updateFilterDistanceSummary() {
         let formattedMinimumDistance = getFormattedDistanceWithUnit(metres: Int(minimumDistance))
         let formattedMaximumDistance = getFormattedDistanceWithUnit(metres: Int(maximumDistance))
         
         if minimumDistance == 0 && maximumDistance == 0 {
-            return "No Filter"
+            filterDistanceSummary = "No Filter"
         } else if minimumDistance >= maximumDistance {
-            return "> " + formattedMinimumDistance
+            filterDistanceSummary = "> " + formattedMinimumDistance
         } else if minimumDistance == 0 {
-            return "< " + formattedMaximumDistance
+            filterDistanceSummary = "< " + formattedMaximumDistance
         } else {
-            return getFormattedDistanceWithoutUnit(metres: Int(minimumDistance)) + "-" + formattedMaximumDistance
+            filterDistanceSummary = getFormattedDistanceWithoutUnit(metres: Int(minimumDistance)) + "-" + formattedMaximumDistance
         }
     }
     
     // MARK: - Images Names
     // Display image names
-    public var trackingModeImage: String {
+    func updateTrackingModeImage() {
         switch trackingMode {
         case .none:
-            return "location"
+            trackingModeImage = "location"
         case .follow:
-            return "location.fill"
+            trackingModeImage = "location.fill"
         default:
-            return "location.north.line.fill"
+            trackingModeImage = "location.north.line.fill"
         }
     }
     
-    public var mapTypeImage: String {
+    func updateMapTypeImage() {
         switch mapType {
         case .standard:
-            return "globe"
+            mapTypeImage = "globe"
         default:
-            return "map"
+            mapTypeImage = "map"
         }
     }
     
@@ -818,10 +845,6 @@ extension ViewModel: MKMapViewDelegate {
             if let route = routeMarker.annotation as? Route {
                 selectedRoute = route
             }
-//        } else if let churchMarker = didSelect as? ChurchMarker {
-//            if let church = churchMarker.annotation as? Church {
-//                UIApplication.shared.open(church.url)
-//            }
         } else if let locationMarker = didSelect as? LocationMarker {
             if let location = locationMarker.annotation as? Location {
                 location.mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
@@ -852,7 +875,7 @@ extension ViewModel: UISearchBarDelegate {
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBarshowCancelButton = true
+        searchBarShowCancelButton = true
         showCancelButton = true
     }
     

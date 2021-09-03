@@ -9,7 +9,10 @@ import SwiftUI
 import StoreKit
 
 struct InfoView: View {
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var vm: ViewModel
+    
+    @State var showShareView: Bool = false
     
     let email: String = "contact.nccr@gmail.com"
     let appUrl: String = "https://itunes.apple.com/app/id1580773042"
@@ -17,7 +20,13 @@ struct InfoView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("About")) {
+                Section(header: Text("NCCR")) {
+                    Button {
+                        showShareView = true
+                    } label: {
+                        Label("Share NCCR", systemImage: "square.and.arrow.up")
+                    }
+                    
                     NavigationLink(destination: AboutView()) {
                         Label("About NCCR", systemImage: "info.circle")
                     }
@@ -46,28 +55,36 @@ struct InfoView: View {
                     }
                     
                     Button {
-                        vm.showShareView = true
+                        let url = URL(string: "mailto:" + email + "?subject=NCCR:%20Feedback")!
+                        UIApplication.shared.open(url)
                     } label: {
-                        Label("Share NCCR", systemImage: "square.and.arrow.up")
+                        Label("Send us Feedback", systemImage: "envelope")
+                    }
+                }
+                
+                Section(header: Text("Contribute"), footer: Text("Many stages still need a title, description and detailed directions. If you would like to test a stage please follow the link above.")) {
+                    Button {
+                        let url = URL(string: "mailto:" + email + "?subject=NCCR:%20Contribute%20Photos")!
+                        UIApplication.shared.open(url)
+                    } label: {
+                        Label("Contribute Photos", systemImage: "photo")
                     }
                     
                     NavigationLink(destination: ContributeView()) {
-                        Label("Contribute", systemImage: "star")
+                        Label("Test a Stage", systemImage: "star")
                     }
                 }
             }
             .navigationTitle("Feedback")
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        vm.showInfoView = false
-                    } label: {
-                        Text("Done")
-                    }
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Text("Done")
                 }
             }
         }
-        .sheet(isPresented: $vm.showShareView) {
+        .sheet(isPresented: $showShareView) {
             ShareView()
                 .preferredColorScheme(vm.mapType == .standard ? .none : .dark)
         }

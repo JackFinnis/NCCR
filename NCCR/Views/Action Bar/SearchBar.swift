@@ -10,7 +10,7 @@ import SwiftUI
 struct SearchBar: UIViewRepresentable {
     @EnvironmentObject var vm: ViewModel
     
-    let placeholder = "Churches and Destinations"
+    let placeholder = "Search Churches and Places"
     
     func makeUIView(context: Context) -> UISearchBar {
         let searchBar = UISearchBar()
@@ -27,8 +27,8 @@ struct SearchBar: UIViewRepresentable {
         searchBar.text = vm.searchText
         searchBar.placeholder = placeholder
         
-        if vm.searchBarshowCancelButton && !vm.showCancelButton {
-            vm.searchBarshowCancelButton = false
+        if vm.searchBarShowCancelButton && !vm.showCancelButton {
+            vm.searchBarShowCancelButton = false
             searchBar.resignFirstResponder()
         }
     }

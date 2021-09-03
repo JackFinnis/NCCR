@@ -11,18 +11,22 @@ struct AboutView: View {
     @EnvironmentObject var vm: ViewModel
     @Environment(\.colorScheme) var colourScheme
     
+    var routesText: String {
+        "There are " + String(vm.routes.count) + " stages of the route covering over " + vm.getFormattedDistanceWithUnit(metres: vm.getTotalMetres()) + " of beautiful Norfolk countryside. Each stage starts and ends at a town with a car park and every other town also has a train station for ease of access."
+    }
+    
     var body: some View {
         List {
             Section(header: Text("NCCR")) {
-                Text("The Norfolk Churches Cycling Routes are a series of cycling routes around Norfolk which visit all of its medieval churches.")
+                Text("The Norfolk Churches Cycle Route is a cycle route around Norfolk which visit all of its medieval churches.")
             }
             
             Section(header: Text("The Churches")) {
-                Text("Norfolk has the highest density of medieval churches in the world. The routes visit 632 churches and each church has substantial medieval fabric.")
+                Text("Norfolk has the highest density of medieval churches in the world. The route visits " + String(vm.churches.count) + " churches and each church has substantial medieval fabric.")
             }
             
-            Section(header: Text("The Routes")) {
-                Text("There are 26 routes covering over " + vm.getFormattedDistanceWithUnit(metres: vm.totalMetres) + " of beautiful Norfolk countryside. Each route starts and ends at a town with a car park and every other town also has a train station for ease of access.")
+            Section(header: Text("The Stages")) {
+                Text(routesText)
             }
             
             Section(header: Text("Acknowledgments")) {

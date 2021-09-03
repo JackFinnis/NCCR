@@ -19,6 +19,7 @@ class Route: NSObject, MKAnnotation, Decodable, Identifiable {
     
     let routeTitle: String?
     let routeDescription: String?
+    let directionsAuthor: String?
     let directions: [String]?
     var churchNames: [String] {
         churches.map { $0.name }
