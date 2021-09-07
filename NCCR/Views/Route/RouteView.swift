@@ -49,7 +49,7 @@ struct RouteView: View {
                 LocationRow(type: "End", name: route.end, mapItem: route.locations[1].mapItem)
             }
             
-            Section(header: Text("Contribute"), footer: Text(route.directions != nil ? "" : "This stage needs a title, description and detailed directions. If you would like to test this stage please follow the link above.")) {
+            Section(header: Text("Contribute"), footer: Text(route.directions != nil ? "" : "This stage needs a title, description and detailed directions. If you would like to test this stage and supply these details please follow the link above.")) {
                 Button {
                     let url = URL(string: "mailto:" + email + "?subject=NCCR:%20Contribute%20Photos")!
                     UIApplication.shared.open(url)

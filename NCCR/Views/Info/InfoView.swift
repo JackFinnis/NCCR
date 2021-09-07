@@ -62,7 +62,7 @@ struct InfoView: View {
                     }
                 }
                 
-                Section(header: Text("Contribute"), footer: Text("Many stages still need a title, description and detailed directions. If you would like to test a stage please follow the link above.")) {
+                Section(header: Text("Contribute"), footer: Text("Many stages still need a title, description and detailed directions. If you would like to test a stage and supply these details please follow the link above.")) {
                     Button {
                         let url = URL(string: "mailto:" + email + "?subject=NCCR:%20Contribute%20Photos")!
                         UIApplication.shared.open(url)

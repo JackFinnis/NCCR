@@ -18,7 +18,7 @@ struct AboutView: View {
     var body: some View {
         List {
             Section(header: Text("NCCR")) {
-                Text("The Norfolk Churches Cycle Route is a cycle route around Norfolk which visit all of its medieval churches.")
+                Text("The Norfolk Churches Cycle Route is a cycle route around Norfolk which visits all of its medieval churches.")
             }
             
             Section(header: Text("The Churches")) {

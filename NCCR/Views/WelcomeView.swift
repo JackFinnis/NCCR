@@ -13,7 +13,7 @@ struct WelcomeView: View {
             VStack {
                 Image("logo")
                     .resizable()
-                    .frame(width: 200, height: 200)
+                    .frame(width: 300, height: 300)
                     .cornerRadius(35)
                     .padding(10)
                 
